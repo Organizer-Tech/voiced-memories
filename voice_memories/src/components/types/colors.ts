@@ -1,0 +1,17 @@
+export type colors =
+  | 'amber'
+  | 'blue'
+  | 'cyan'
+  | 'gray'
+  | 'green'
+  | 'indigo'
+  | 'lime'
+  | 'orange'
+  | 'pink'
+  | 'purple'
+  | 'red'
+  | 'teal'
+  | 'yellow'
+  | 'white'
+  | 'black'
+  | 'none';
