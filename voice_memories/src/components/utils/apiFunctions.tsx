@@ -1,4 +1,4 @@
-const baseUrl = 'https://7tpxtqwxq2.execute-api.us-west-2.amazonaws.com/dev/'
+const baseUrl = 'https://c8a9nlt9z8.execute-api.us-west-2.amazonaws.com/Production'
 
 interface ImgData {
   email?: string
