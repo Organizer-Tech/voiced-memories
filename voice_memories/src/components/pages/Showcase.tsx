@@ -65,10 +65,12 @@ export function Showcase() {
   }, [])
 
  const photoGallery = [{src: '/Dad_at_Victoria_Landing.jpg', albumName: "Showcase Collection", audio: "/Dad_Victoria_Landing.m4a" },
- {src: 'mom_getting_her_jersey.jpg', albumName: "Showcase Collection", audio: '/Mom_and_Baseball.m4a'},
- {src: 'Family_Gathering.jpg', albumName: "Showcase Collection", audio: '/Family_Gathering.m4a'},
+  {src: 'mom_getting_her_jersey.jpg', albumName: "Showcase Collection", audio: '/Mom_and_Baseball.m4a'},
+  {src: 'Family_Gathering.jpg', albumName: "Showcase Collection", audio: '/Family_Gathering.m4a'},
   {src: 'Anna_Martin_Hansen.jpg', albumName: "Showcase Collection", audio: '/Anna_and_Martin_Hanson.m4a'},
   {src: 'Robert_Bell_General_Store.jpg', albumName: "Showcase Collection", audio: '/Robert_Bell.m4a'},
+  {src: 'Family_Travel.jpg', albumName: "Showcase Collection", audio: '/Family_Travel.m4a'},
+  {src: 'Monica.jpg', albumName: "Showcase Collection", audio: '/Monica.m4a'},
  ]
 
   const galleryData = photoGallery.map((photo) => ({
