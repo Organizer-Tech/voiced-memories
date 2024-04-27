@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useContext, useRef } from 'react'
 import ImageGallery from 'react-image-gallery'
-import { Tooltip } from '@material-ui/core'
+import Tooltip from '@mui/material/Tooltip'
 import 'react-image-gallery/styles/css/image-gallery.css'
 
 
