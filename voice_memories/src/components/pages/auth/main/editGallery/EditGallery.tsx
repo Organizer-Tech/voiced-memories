@@ -132,7 +132,10 @@ function EditGallery() {
         updateDimensions();
         window.addEventListener('resize', updateDimensions);
 
-        return () => window.removeEventListener('resize', updateDimensions);
+        return () => {
+            window.removeEventListener('resize', updateDimensions);
+            activeSound?.pause();
+        }
     }, []); 
 
     /**

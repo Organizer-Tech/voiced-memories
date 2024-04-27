@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect, useContext, useRef } from 'react'
 import ImageGallery from 'react-image-gallery'
+import { Tooltip } from '@material-ui/core'
 import 'react-image-gallery/styles/css/image-gallery.css'
 
 
@@ -20,12 +21,14 @@ export function Showcase() {
   const [isAutoplayEnabled, setIsAutoplayEnabled] = useState(false)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
   const [isFullScreen, setIsFullScreen] = useState(false)
+  const [currentVolume, setCurrentVolume] = useState(100)
   const router = useRouter()
   const handleVolumeChange = (e) => {
     const volume = parseFloat(e.target.value)
     if (audioRef.current) {
       audioRef.current.volume = volume
     }
+    setCurrentVolume(Math.floor(volume*100))
   }
   const toggleVolumeSlider = () => {
     setShowVolumeSlider((prevShowVolumeSlider) => !prevShowVolumeSlider)
@@ -38,6 +41,8 @@ export function Showcase() {
       if (currentPhoto && currentPhoto.audio) {
         playAudio(currentPhoto.audio)
       }
+    } else {
+      audioRef.current.pause()
     }
   }
 
@@ -81,6 +86,11 @@ export function Showcase() {
 
   useEffect(() => {
     audioRef.current = new Audio()
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+      }
+    }
   }, [albumName])
 
   const handleSlide = (currentIndex: number) => {
@@ -127,7 +137,7 @@ export function Showcase() {
     return new Blob([byteArray], { type: mimeType })
   }
   return (
-    <div>
+    <div className="relative min-h-screen flex flex-col">
       <style jsx>{`
         .image-gallery-fullscreen-button {
           display: none !important;
@@ -180,38 +190,50 @@ export function Showcase() {
       </div>
 
       <ImageGallery items={galleryData} onSlide={handleSlide} />
-      <div className="flex items-center justify-between">
-        <div>
-          <button onClick={toggleAutoplay} style={{ marginLeft: '10px' }}>
-            {isAutoplayEnabled ? (
-              <PlayPauseIcon className="h-6 w-6" />
+      <div className="absolute bottom-5 left-5 w-11/12">
+        <div className="relative top-0">
+          <Tooltip title={isAutoplayEnabled ? "Disable Autoplay" : "Enable Autoplay"} placement="right">
+            <button onClick={toggleAutoplay} style={{ marginLeft: '10px' }}>
+              {isAutoplayEnabled ? (
+                <PlayPauseIcon className="h-6 w-6" />
+              ) : (
+                <PlayIcon className="h-6 w-6" />
+              )}
+            </button>
+          </Tooltip>
+        </div>
+        <div className="relative bottom-0">
+          <Tooltip title="Volume" placement="right">
+            <button onClick={toggleVolumeSlider} style={{ marginRight: '10px' }}>
+              <SpeakerWaveIcon className="ml-4 h-6 w-6" />
+            </button>
+          </Tooltip>
+          {showVolumeSlider && (
+            <Tooltip title={currentVolume} placement="right">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  defaultValue="1"
+                  onChange={handleVolumeChange}
+                  style={{ width: '10%', minWidth: '80px' }}
+                />
+              </Tooltip>
+          )}
+        </div>
+      </div>
+      <div className="absolute bottom-5 right-5">
+        <Tooltip title={isFullScreen ? "Exit Fullscreen" : "Fullscreen"} placement="left">
+          <button onClick={toggleFullScreen} className="mr-2">
+            {isFullScreen ? (
+              <ArrowsPointingInIcon className="h-6 w-6" />
             ) : (
-              <PlayIcon className="h-6 w-6" />
+              <ArrowsPointingOutIcon className="h-6 w-6" />
             )}
           </button>
-        </div>
-        <button onClick={toggleFullScreen} className="mr-2">
-          {isFullScreen ? (
-            <ArrowsPointingInIcon className="h-6 w-6" />
-          ) : (
-            <ArrowsPointingOutIcon className="h-6 w-6" />
-          )}
-        </button>
+        </Tooltip>
       </div>
-      <button onClick={toggleVolumeSlider} style={{ marginRight: '10px' }}>
-        <SpeakerWaveIcon className="ml-4 h-6 w-6" />
-      </button>
-      {showVolumeSlider && (
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          defaultValue="1"
-          onChange={handleVolumeChange}
-          style={{ width: '10%', minWidth: '80px' }}
-        />
-      )}
     </div>
   )
 }
