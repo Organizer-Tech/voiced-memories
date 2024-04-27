@@ -89,7 +89,7 @@ export default function SharedGallery() {
         }
       } catch (error) {
         console.error('Error:', error)
-        if (error === 404) {
+        if (error instanceof Response && error.status === 404) {
           alert(
             'The provided link is expired. Please ask the gallery owner for a new share link',
           )

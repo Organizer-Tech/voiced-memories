@@ -30,7 +30,7 @@ export const getAllUrls = async (email: string, tokens: AuthTokens) => {
   if (res.ok) {
     return await res.json()
   } else {
-    throw res.status
+    throw res
   }
 }
 
@@ -41,7 +41,7 @@ export const getAllSharedUrls = async (id: string) => {
   if (res.ok) {
     return await res.json()
   } else {
-    throw res.status
+    throw res
   }
 }
 
@@ -65,7 +65,7 @@ export const getAlbumUrls = async (
   if (res.ok) {
     return await res.json()
   } else {
-    throw res.status
+    throw res
   }
 }
 
@@ -82,7 +82,7 @@ export const getPhoto = async (url: string, tokens: AuthTokens) => {
   })
 
   if (!res.ok) {
-    throw res.status
+    throw res
   }
   const data = await res.json()
   const img = data.photo
@@ -122,7 +122,7 @@ export const createShareableLink = async (
     },
   })
   if (!res.ok) {
-    throw res.status
+    throw res
   }
   const data = await res.json()
 
@@ -171,7 +171,7 @@ export const postPhoto = async (
     body: body,
   })
   if (!res.ok) {
-    throw res.status
+    throw res
   }
   return await res.json()
 }
@@ -221,7 +221,7 @@ export const updatePhoto = async (
     body: body,
   })
   if (!res.ok) {
-    throw res.status
+    throw res
   }
   const data = await res.json()
   console.log(`Data: ${data}`)
@@ -237,7 +237,7 @@ export const deletePhoto = async (url: string, tokens: AuthTokens) => {
     },
   })
   if (!res.ok) {
-    throw res.status
+    throw res
   }
   const data = await res.json()
   return data
@@ -252,7 +252,7 @@ export const deleteAllPhotos = async (email: string, tokens: AuthTokens) => {
     },
   })
   if (!res.ok) {
-    throw res.status
+    throw res
   }
   return res.status
 }
