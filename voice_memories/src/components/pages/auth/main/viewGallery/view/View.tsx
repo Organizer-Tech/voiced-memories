@@ -15,7 +15,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { Button } from '@/components/primitives/Button'
 import { useRouter } from 'next/navigation'
-import Tooltip from "@material-ui/core/Tooltip";
+import Tooltip from '@mui/material/Tooltip'
 export function View() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
