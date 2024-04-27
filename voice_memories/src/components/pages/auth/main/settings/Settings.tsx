@@ -92,6 +92,7 @@ export function Settings() {
     confirmPasswordReset,
     updateUserAttribute,
     verifyAttribute,
+    deleteUser,
     getWixOrderId,
     getWixMemberId,
   } = useContext(AccountContext)
@@ -161,7 +162,18 @@ export function Settings() {
     const res = await deleteAllPhotos(email, tokens)
 
     if (res === 204) {
-      //delete successful
+      setIsConfirmDeleteOpen(false);
+
+      cancelMembership(wixOrderId).then(() => {
+        setWixPlan(null)
+      }).catch(() => {
+        alert("Account deletion failed.")
+      })
+
+      deleteUser()
+
+      alert("Account was deleted successfully");
+      window.location.href = '/'
     } else {
       //delete unsuccessful
     }
@@ -458,21 +470,14 @@ export function Settings() {
                       </div>
                     )}
                     {!updateEmail && (
-                      <div className="pt-6 sm:flex">
-                        <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-                          Email address
-                        </dt>
-                        <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                          <div className="text-gray-900">{email}</div>
-                          <button
-                            type="button"
-                            onClick={() => setUpdateEmail(true)}
-                            className="font-semibold text-indigo-600 hover:text-indigo-500"
-                          >
-                            Update
-                          </button>
-                        </dd>
-                      </div>
+                        <div className="pt-6 sm:flex">
+                          <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                            Email address
+                          </dt>
+                          <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                            <div className="text-gray-900">{email}</div>
+                          </dd>
+                        </div>
                     )}
                     {updateEmail && verified && (
                       <div className="pt-5">
