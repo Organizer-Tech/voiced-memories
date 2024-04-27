@@ -7,9 +7,11 @@ import { getAllUrls, getPhoto } from '@/components/utils/apiFunctions'
 import { TileSpinner } from '@/components/primitives/TileSpinner.tsx/TileSpinner'
 import { Button } from '@/components/primitives/Button'
 import { useRouter } from 'next/navigation'
+import { Alert } from '@mui/material'
 const PolaroidGallery = ({ session, size, imageSize, className, textSize }) => {
     const [photos, setPhotos] = useState<any[]>([])
     const [isLoading, setIsLoading] = useState(true);
+    const [noPhotos, setNoPhotos] = useState(false);
     const router = useRouter()
     const fetchGalleryData = async () => {
         try {
@@ -40,7 +42,10 @@ const PolaroidGallery = ({ session, size, imageSize, className, textSize }) => {
                 });
             }
         } catch (error) {
-            console.error('Error fetching gallery data:', error)
+          if (error instanceof Response && error.status === 404) {
+            setNoPhotos(true);
+          }
+          console.error('Error fetching gallery data:', error)
         }
     }
 
@@ -57,6 +62,24 @@ const PolaroidGallery = ({ session, size, imageSize, className, textSize }) => {
         fetchGalleryData()
     }, [])
 
+    if (noPhotos) {
+      return (
+        <div className="flex items-center justify-center min-h-screen">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Alert severity="error">No albums were found for the current user. Please return to home and create a gallery</Alert>
+          <div className="pb-10 text-center flex justify-center fixed bottom-0 w-full">
+          <Button 
+            size="xl"
+            className="text-3xl text-white hover:text-gray-200"
+            onClick={() => router.push('/auth/main')}
+          >
+            Return to Home
+          </Button>
+          </div>
+        </div>
+        </div>
+      );
+    }
     if (photos.length === 0 || !photos) {
         return (
           <div className="flex items-center justify-center min-h-screen">

@@ -33,6 +33,7 @@ export function Main() {
     getSession()
       .then((session) => {
         setLoggedIn(true)
+        
       })
       .catch((error) => {
         // Redirect if not logged in
@@ -41,6 +42,7 @@ export function Main() {
         }
       })
   }, [])
+
   //tile spinner while loading
   if (!loggedIn) {
     return <TileSpinner />
@@ -105,14 +107,21 @@ export function Main() {
                   {
                     name: 'Create Gallery',
                     size: screenWidth * 0.18,
-                    link: '/link1',
+                    link: '/auth/main/createGallery',
                     imageSize: 200,
+                    className: '-rotate-10',
+                  },
+                  {
+                    name: 'Edit Gallery',
+                    size: screenWidth * 0.18,
+                    link: '/auth/main/userGallery',
+                    imageSize: 400,
                     className: 'rotate-10',
                   },
                   {
                     name: 'View Gallery',
                     size: screenWidth * 0.18,
-                    link: '/link2',
+                    link: '/auth/main/viewGallery',
                     imageSize: 250,
                     className: 'rotate-0',
                   },

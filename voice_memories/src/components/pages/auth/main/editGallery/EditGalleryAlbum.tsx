@@ -26,6 +26,7 @@ import { color } from 'framer-motion'
 import { FloatingPortal } from '@floating-ui/react'
 import { ConfirmationModal } from '@/components/primitives/ConfirmationModal/ConfirmationModal'
 import { TileSpinner } from '@/components/primitives/TileSpinner.tsx/TileSpinner'
+import { Alert } from '@mui/material'
 
 // Album component to display the user's gallery
 export interface ImgData {
@@ -111,6 +112,7 @@ function Album({
   const [currentPage, setCurrentPage] = useState(1) // Read but not set
   const [galleryData, setGalleryData] = useState<GalleryItem[]>([])
   const [displayedImages, setDisplayedImages] = useState<GalleryItem[]>([]) // Set but not read
+  const [noPhotos, setNoPhotos] = useState(false) 
 
   // Refs
   const containerRef = useRef<HTMLDivElement>(null)
@@ -194,10 +196,12 @@ function Album({
         }
       } catch (error) {
         setLoaded(true)
-        if (error instanceof SyntaxError) {
+        if (error instanceof Response && error.status === 404) {
+          console.log('No photos found, new user')
+          setNoPhotos(true)
         } else {
           console.error('Error:', error)
-          if (isMounted && typeof window !== 'undefined') {
+          if (isMounted && typeof window !== 'undefined' && !session) {
             window.location.href = '/'
           }
         }
@@ -703,8 +707,8 @@ function Album({
             Gallery
           </Button>
         </div>
+        {photos.length > 0 && (
         <div className="flex justify-between pr-4">
-          {photos.length > 0 && (
             <Button
               size="xl"
               className="text-3xl text-white hover:text-gray-200"
@@ -713,21 +717,28 @@ function Album({
             >
               Share
             </Button>
-          )}
         </div>
-        {loggedIn ? (
-          <Button
-            size="xl"
-            className="text-3xl text-white hover:text-gray-200"
-            backgroundColor={'#008080'}
-            onClick={handleLogout}
-          >
-            Log Out
-          </Button>
-        ) : (
-          'Please sign in'
         )}
+        {loggedIn ? (
+          <div className="flex justify-between pr-4">
+              <Button
+                size="xl"
+                className="text-3xl text-white hover:text-gray-200"
+                backgroundColor={'#008080'}
+                onClick={handleLogout}
+              >
+                Log Out
+              </Button>
+          </div>
+          ) : (
+            'Please sign in' 
+          )}
       </div>
+      {noPhotos && (
+        <div className="mt-10">
+          <Alert severity='info'>Photos must be uploaded to an album before it is saved</Alert>
+        </div>
+      )}
       <FloatingPortal>
         <ConfirmationModal
           title="Shareable Link"

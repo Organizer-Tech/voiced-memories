@@ -27,9 +27,11 @@ export const getAllUrls = async (email: string, tokens: AuthTokens) => {
       Authorization: tokens.id,
     },
   })
-  const data = await res.json()
-
-  return data
+  if (res.ok) {
+    return await res.json()
+  } else {
+    throw res
+  }
 }
 
 export const getAllSharedUrls = async (id: string) => {
@@ -39,7 +41,7 @@ export const getAllSharedUrls = async (id: string) => {
   if (res.ok) {
     return await res.json()
   } else {
-    throw 404
+    throw res
   }
 }
 
@@ -60,9 +62,11 @@ export const getAlbumUrls = async (
       Authorization: tokens.id,
     },
   })
-  const data = await res.json()
-
-  return data
+  if (res.ok) {
+    return await res.json()
+  } else {
+    throw res
+  }
 }
 
 /**
@@ -77,6 +81,9 @@ export const getPhoto = async (url: string, tokens: AuthTokens) => {
     },
   })
 
+  if (!res.ok) {
+    throw res
+  }
   const data = await res.json()
   const img = data.photo
   const audioFull = data.audio
@@ -114,6 +121,9 @@ export const createShareableLink = async (
       Authorization: tokens.id,
     },
   })
+  if (!res.ok) {
+    throw res
+  }
   const data = await res.json()
 
   return data['Shared Url']
@@ -160,7 +170,9 @@ export const postPhoto = async (
     },
     body: body,
   })
-
+  if (!res.ok) {
+    throw res
+  }
   return await res.json()
 }
 
@@ -208,7 +220,9 @@ export const updatePhoto = async (
     },
     body: body,
   })
-
+  if (!res.ok) {
+    throw res
+  }
   const data = await res.json()
   console.log(`Data: ${data}`)
   return data
@@ -222,7 +236,9 @@ export const deletePhoto = async (url: string, tokens: AuthTokens) => {
       Authorization: tokens.id,
     },
   })
-
+  if (!res.ok) {
+    throw res
+  }
   const data = await res.json()
   return data
 }
@@ -235,7 +251,9 @@ export const deleteAllPhotos = async (email: string, tokens: AuthTokens) => {
       Authorization: tokens.id,
     },
   })
-
+  if (!res.ok) {
+    throw res
+  }
   return res.status
 }
 
