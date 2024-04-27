@@ -40,6 +40,7 @@ interface IAccountContext {
   getWixOrderId: () => Promise<string | null>
   getWixMemberId: () => Promise<string | null>
   getEmail: () => Promise<string | null>
+  deleteUser: () => void
 }
 
 /**
@@ -158,6 +159,29 @@ const getSession = () => {
   })
 }
 
+const deleteUser = () => {
+  const user = Pool.getCurrentUser();
+
+  if (user) {
+    user.getSession((err: Error) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+    })
+  }
+
+  user.deleteUser((err, result) => {
+    if (err) {
+      alert("Account deletion failed");
+      console.log(err);
+      return;
+    }
+
+    console.log("Account deletion was successful")
+  })
+}
+
 /**
  * Update user attribute in Cognito
  * @param key Attribute key
@@ -166,7 +190,7 @@ const getSession = () => {
 const updateUserAttribute = (key: string, value: string) => {
   const user = Pool.getCurrentUser()
   if (user) {
-    user.getSession((err: Error, session: CognitoUserSession | null) => {
+    user.getSession((err: Error) => {
       if (err) {
         console.error(err)
         return
@@ -439,6 +463,7 @@ const AccountContext = createContext<IAccountContext>({
   getUserTier: getUserTier,
   getWixMemberId: getWixMemberId,
   getEmail: getEmail,
+  deleteUser: deleteUser,
 })
 
 const Account: React.FC<{ children: React.ReactNode }> = (props) => {
@@ -459,6 +484,7 @@ const Account: React.FC<{ children: React.ReactNode }> = (props) => {
         getUserTier,
         getWixMemberId,
         getEmail,
+        deleteUser,
       }}
     >
       {props.children}
