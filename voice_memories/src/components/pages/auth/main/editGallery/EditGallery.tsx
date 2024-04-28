@@ -83,7 +83,6 @@ function EditGallery() {
           byteNumbers[i] = byteCharacters.charCodeAt(i)
         }
         const byteArray = new Uint8Array(byteNumbers)
-        console.log("Creating new Blob")
         return new Blob([byteArray], { type: mimeType })
       }
 
@@ -93,8 +92,6 @@ function EditGallery() {
         ffmpeg.writeFile('input.mp4', new Uint8Array(await blob.arrayBuffer()));
         await ffmpeg.exec(['-i', 'input.mp4', 'output.wav']);
         const data = await ffmpeg.readFile('output.wav');
-        console.log("Converting Blob")
-        console.log(data)
         return new Blob([data], { type: outputMimeType });
 
     };
@@ -104,7 +101,6 @@ function EditGallery() {
      * @param photo PhotoProps object with all photo data
      */  
     const handleImageClick = async (photo: PhotoProps) => {
-        console.log("imageClicked")
         // Pause the current audio
         activeSound?.pause();
         if(activeSound){
@@ -124,7 +120,6 @@ function EditGallery() {
             const convertedBlob = await convertBlobWithFfmpeg(audioBlob, 'audio/wav'); // Convert using ffmpeg.js
             const audioUrl = URL.createObjectURL(convertedBlob); // Create URL for the converted audio
             const currentAudio = new Audio(audioUrl);
-            console.log('file type:', convertedBlob.type);
             setActiveSound(currentAudio);
         }
         //@ts-ignore src does exist, but TS doesn't know that
@@ -168,14 +163,10 @@ function EditGallery() {
      */
     const startRecording = async () => {
         try {
-          console.log("Getting media device");
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          console.log(stream)
           mediaRecorder.current = new MediaRecorder(stream); 
           // Add event listeners for the media recorder
           mediaRecorder.current.ondataavailable = (event) => {
-            console.log("Current Chunks");
-            console.log(chunks.current)
             chunks.current.push(event.data);
           };
           mediaRecorder.current.onstop = () => {
@@ -183,9 +174,6 @@ function EditGallery() {
             const blob = new Blob(chunks.current, { type: 'audio/mp4' });
             blobRef.current = blob;
             const url = URL.createObjectURL(blob);
-            console.log("Blob MIME type:", blob.type); 
-            // Set states for the new audio
-            console.log("Audio recorded");
             setActiveSound(new Audio(url))
             setSrc(url);
             // Reset the chunks
@@ -342,9 +330,6 @@ function EditGallery() {
                         imgId: 'test',
 
                     }
-                    console.log(img.audioType)
-                    console.log(img.imgId)
-
                     // Update the photo entry in AWS with the new audio file
                     await updatePhoto(getCurrentURL(),img,tokens,undefined,file)
                     window.location.reload();
