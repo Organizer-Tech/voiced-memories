@@ -120,9 +120,7 @@ export function View() {
                 }),
               )
 
-              console.log('before sort:', albumPhotos)
               albumPhotos.sort(compare)
-              console.log('after sort:', albumPhotos)
 
               if (isMounted) {
                 setPhotos(albumPhotos)
@@ -151,7 +149,6 @@ export function View() {
     description: photo.albumName,
     audio: photo.audio,
   }))
-  console.log(galleryData)
 
   useEffect(() => {
     audioRef.current = new Audio()
@@ -223,8 +220,6 @@ export function View() {
     ffmpeg.writeFile('input.mp4', new Uint8Array(await blob.arrayBuffer()));
     await ffmpeg.exec(['-i', 'input.mp4', 'output.wav']);
     const data = await ffmpeg.readFile('output.wav');
-    console.log("Converting Blob")
-    console.log(data)
     return new Blob([data], { type: outputMimeType });
 
 };
