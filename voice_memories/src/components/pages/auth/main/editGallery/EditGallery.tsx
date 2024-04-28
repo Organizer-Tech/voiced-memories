@@ -158,6 +158,7 @@ function EditGallery() {
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
           console.log(stream)
           mediaRecorder.current = new MediaRecorder(stream); // Create a new media recorder
+          console.log("MediaRecorder MIME type:", mediaRecorder.current.mimeType);
           console.log(mediaRecorder.current)
           // Add event listeners for the media recorder
           mediaRecorder.current.ondataavailable = (event) => {
@@ -170,12 +171,11 @@ function EditGallery() {
             const blob = new Blob(chunks.current, { type: 'audio/mp4; codecs="aac"' });
             blobRef.current = blob;
             const url = URL.createObjectURL(blob);
-            
+            console.log("Blob MIME type:", blob.type); 
             // Set states for the new audio
             console.log("Audio recorded");
             setActiveSound(new Audio(url))
             setSrc(url);
-
             // Reset the chunks
             chunks.current = [];
           };
@@ -187,8 +187,12 @@ function EditGallery() {
           console.error('Error starting recording:', error);
         }
       };
-    
-
+    //delete after testing
+      mediaRecorder.current.ondataavailable = (event) => {
+        console.log("Data available");
+        console.log("Event data type:", event.data.type); 
+        chunks.current.push(event.data);
+      };
     /**
      * Stop recording 
      */
