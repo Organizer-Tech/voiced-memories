@@ -108,7 +108,7 @@ function EditGallery() {
 
         // If there is audio, create a new audio blob and load it
         if(currentSound){
-            audioBlob = base64ToBlob(currentSound, 'audio/mp4; codecs="aac');
+            audioBlob = base64ToBlob(currentSound, 'audio/mp4; codecs="aac"');
             audioUrl = URL.createObjectURL(audioBlob);
             currentAudio = new Audio(audioUrl);
             setActiveSound(currentAudio);
@@ -167,7 +167,7 @@ function EditGallery() {
           };
           mediaRecorder.current.onstop = () => {
             // Create blob from recorded chunks
-            const blob = new Blob(chunks.current, { type: 'audio/mp4; codecs="aac' });
+            const blob = new Blob(chunks.current, { type: 'audio/mp4; codecs="aac"' });
             blobRef.current = blob;
             const url = URL.createObjectURL(blob);
             
@@ -315,7 +315,7 @@ function EditGallery() {
             };
             if(blobRef.current) {
                 // Create a new audio file from the recording blob
-                createAudioFileFromBlob(blobRef.current,'audio.m4a','audio/mp4; codecs="aac')
+                createAudioFileFromBlob(blobRef.current, 'audio.m4a', 'audio/mp4; codecs="aac"')
                 .then(async (file) => {
                     // Use the audio buffer as needed
                     console.log("File:", file);
