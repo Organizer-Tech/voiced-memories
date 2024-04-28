@@ -315,12 +315,12 @@ function EditGallery() {
             };
             if(blobRef.current) {
                 // Create a new audio file from the recording blob
-                createAudioFileFromBlob(blobRef.current,'audio.mp3','audio/mp3')
+                createAudioFileFromBlob(blobRef.current, 'audio.mp3', 'audio/mpeg3;audio/x-mpeg-3;video/mpeg;video/x-mpeg')
                 .then(async (file) => {
                     // Use the audio buffer as needed
                     console.log("File:", file);
                     // Create URL for the audio file to be used as a source
-                    activeSound.src = URL.createObjectURL(blobRef.current)
+                    activeSound.src = URL.createObjectURL(new Blob([blobRef.current], { type: 'audio/mpeg3;audio/x-mpeg-3;video/mpeg;video/x-mpeg' }));
                     console.log(`imgdata = ${imgData}`)
                     // Create ImgData object to update the photo
                     const img: ImgData = {
