@@ -48,6 +48,8 @@ export function View() {
       if (currentPhoto && currentPhoto.audio) {
         playAudio(currentPhoto.audio)
       }
+    } else {
+      audioRef.current.pause()
     }
   }
 
