@@ -6,6 +6,7 @@ import { AccountContext } from '@/components/utils/Account'
 import { getAllUrls, getPhoto } from '@/components/utils/apiFunctions'
 import { TileSpinner } from '@/components/primitives/TileSpinner.tsx/TileSpinner'
 import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import { FFmpeg } from '@ffmpeg/ffmpeg';
 import {
   ArrowsPointingOutIcon,
   ArrowsPointingInIcon,
@@ -186,9 +187,10 @@ export function View() {
     return 0
   }
 
-  const playAudio = (audioBase64: string) => {
-    const audioBlob = base64ToBlob(audioBase64, 'audio/mpeg')
-    const audioUrl = URL.createObjectURL(audioBlob)
+  const playAudio = async (audioBase64: string) => {
+    const audioBlob = base64ToBlob(audioBase64, 'audio/mp4')
+    const convertedBlob = await convertBlobWithFfmpeg(audioBlob, 'audio/wav');
+    const audioUrl = URL.createObjectURL(convertedBlob)
     const currentAudio = audioRef.current
     currentAudio.pause()
     currentAudio.src = audioUrl
@@ -215,7 +217,17 @@ export function View() {
     // Cleanup
     return () => observer.disconnect()
   }, [])
+  const convertBlobWithFfmpeg = async (blob: Blob, outputMimeType: string): Promise<Blob> => {
+    const ffmpeg = new FFmpeg();
+    await ffmpeg.load();
+    ffmpeg.writeFile('input.mp4', new Uint8Array(await blob.arrayBuffer()));
+    await ffmpeg.exec(['-i', 'input.mp4', 'output.wav']);
+    const data = await ffmpeg.readFile('output.wav');
+    console.log("Converting Blob")
+    console.log(data)
+    return new Blob([data], { type: outputMimeType });
 
+};
   const base64ToBlob = (base64, mimeType) => {
     const byteCharacters = atob(base64)
     const byteNumbers = new Array(byteCharacters.length)
