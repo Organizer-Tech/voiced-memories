@@ -157,7 +157,7 @@ function EditGallery() {
           console.log("Getting media device");
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
           console.log(stream)
-          mediaRecorder.current = new MediaRecorder(stream); // Create a new media recorder
+          mediaRecorder.current = new MediaRecorder(stream, { mimeType: 'audio/mp4; codecs="aac"' }); 
           console.log("MediaRecorder MIME type:", mediaRecorder.current.mimeType);
           console.log(mediaRecorder.current)
           // Add event listeners for the media recorder
