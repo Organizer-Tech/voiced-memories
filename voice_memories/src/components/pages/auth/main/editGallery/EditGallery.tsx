@@ -187,12 +187,6 @@ function EditGallery() {
           console.error('Error starting recording:', error);
         }
       };
-    //delete after testing
-      mediaRecorder.current.ondataavailable = (event) => {
-        console.log("Data available");
-        console.log("Event data type:", event.data.type); 
-        chunks.current.push(event.data);
-      };
     /**
      * Stop recording 
      */
