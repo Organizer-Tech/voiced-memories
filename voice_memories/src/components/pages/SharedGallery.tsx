@@ -13,6 +13,7 @@ import {
   PlayPauseIcon,
 } from '@heroicons/react/20/solid'
 import { TileSpinner } from '@/components/primitives/TileSpinner.tsx/TileSpinner'
+import { FFmpeg } from '@ffmpeg/ffmpeg'
 // SharedGallery component to display the shared gallery
 export default function SharedGallery() {
   const [isLoading, setIsLoading] = useState(true)
@@ -144,7 +145,8 @@ export default function SharedGallery() {
     }
   }
 
-  const playAudio = (audioUrl: string) => {
+  const playAudio = async (audioUrl: string) => {
+    audioUrl = await convertBlobWithFfmpeg(audioUrl, 'audio/wav');
     const currentAudio = audioRef.current
     currentAudio.pause()
     currentAudio.src = audioUrl
@@ -153,6 +155,22 @@ export default function SharedGallery() {
       .play()
       .catch((error) => console.error('Audio play failed', error))
   }
+
+
+
+  const convertBlobWithFfmpeg = async (audioURL: string, outputMimeType: string): Promise<string> => {
+    const res = await fetch(audioURL)
+    const blobAudio = await res.blob()
+    const ffmpeg = new FFmpeg();
+    await ffmpeg.load();
+    ffmpeg.writeFile('input.mp4', new Uint8Array(await blobAudio.arrayBuffer()));
+    await ffmpeg.exec(['-i', 'input.mp4', 'output.wav']);
+    const data = await ffmpeg.readFile('output.wav');
+    console.log("converting data");
+    const blob = new Blob([data], { type: outputMimeType });
+    return URL.createObjectURL(blob);
+
+};
 
   useEffect(() => {
     // This effect runs once after the initial render
