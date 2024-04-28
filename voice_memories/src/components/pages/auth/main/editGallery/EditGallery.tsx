@@ -17,7 +17,7 @@ import {CognitoUserSession} from "amazon-cognito-identity-js";
 import { FloatingPortal } from '@floating-ui/react';
 import { ConfirmationModal } from '@/components/primitives/ConfirmationModal/ConfirmationModal';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
-import { fetchFile } from '@ffmpeg/utils';
+// import { fetchFile } from '@ffmpeg/utils';
 function EditGallery() {
     // States
     const [loggedIn, setLoggedIn] = useState(false); // Set but not referenced
