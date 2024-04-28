@@ -16,8 +16,8 @@ import {AccountContext} from "@/components/utils/Account";
 import {CognitoUserSession} from "amazon-cognito-identity-js";
 import { FloatingPortal } from '@floating-ui/react';
 import { ConfirmationModal } from '@/components/primitives/ConfirmationModal/ConfirmationModal';
-
-
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile } from '@ffmpeg/utils';
 function EditGallery() {
     // States
     const [loggedIn, setLoggedIn] = useState(false); // Set but not referenced
@@ -87,11 +87,23 @@ function EditGallery() {
         return new Blob([byteArray], { type: mimeType })
       }
 
+    const convertBlobWithFfmpeg = async (blob: Blob, outputMimeType: string): Promise<Blob> => {
+        const ffmpeg = new FFmpeg();
+        await ffmpeg.load();
+        ffmpeg.writeFile('input.mp4', new Uint8Array(await blob.arrayBuffer()));
+        await ffmpeg.exec(['-i', 'input.mp4', 'output.wav']);
+        const data = await ffmpeg.readFile('output.wav');
+        console.log("Converting Blob")
+        console.log(data)
+        return new Blob([data], { type: outputMimeType });
+
+    };
+
     /**
      * Moves photo from side bar to main display and loads any associated audio
      * @param photo PhotoProps object with all photo data
      */  
-    const handleImageClick = (photo: PhotoProps) => {
+    const handleImageClick = async (photo: PhotoProps) => {
         console.log("imageClicked")
         // Pause the current audio
         activeSound?.pause();
@@ -109,8 +121,10 @@ function EditGallery() {
         // If there is audio, create a new audio blob and load it
         if(currentSound){
             audioBlob = base64ToBlob(currentSound, 'audio/mp4');
-            audioUrl = URL.createObjectURL(audioBlob);
-            currentAudio = new Audio(audioUrl);
+            const convertedBlob = await convertBlobWithFfmpeg(audioBlob, 'audio/wav'); // Convert using ffmpeg.js
+            const audioUrl = URL.createObjectURL(convertedBlob); // Create URL for the converted audio
+            const currentAudio = new Audio(audioUrl);
+            console.log('file type:', convertedBlob.type);
             setActiveSound(currentAudio);
         }
         //@ts-ignore src does exist, but TS doesn't know that
