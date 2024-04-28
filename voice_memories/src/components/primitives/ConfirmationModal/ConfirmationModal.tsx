@@ -177,7 +177,7 @@ export const ConfirmationModal = ({
       <div className="mt-5 justify-end">
 
         {isDeleteModal && (
-          <Button className="flex items-center" onClick={onConfirm} color="red">
+          <Button className="flex items-center mr-2" onClick={onConfirm} color="red">
             <span className="mr-2">Delete</span>{' '}
             <EjectIcon className="h-5 w-5" />
           </Button>

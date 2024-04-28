@@ -9,6 +9,7 @@ export interface ModalProps {
 }
 
 export const Modal = ({ title, isOpen, handleClose, children }: ModalProps) => {
+  const isRecordModal = title.toLowerCase().includes('recording')
   const closeModal = () => {
     handleClose()
   }
@@ -34,7 +35,7 @@ export const Modal = ({ title, isOpen, handleClose, children }: ModalProps) => {
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-y-auto">
+        <div className={isRecordModal ? "fixed inset-0 overflow-y-auto left-2/3" : "fixed inset-0 overflow-y-auto"}>
           <div className="flex min-h-[75vh] items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
