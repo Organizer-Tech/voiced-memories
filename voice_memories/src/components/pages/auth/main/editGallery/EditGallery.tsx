@@ -108,7 +108,7 @@ function EditGallery() {
 
         // If there is audio, create a new audio blob and load it
         if(currentSound){
-            audioBlob = base64ToBlob(currentSound, 'audio/mp3');
+            audioBlob = base64ToBlob(currentSound, 'audio/mp4');
             audioUrl = URL.createObjectURL(audioBlob);
             currentAudio = new Audio(audioUrl);
             setActiveSound(currentAudio);
@@ -167,7 +167,7 @@ function EditGallery() {
           };
           mediaRecorder.current.onstop = () => {
             // Create blob from recorded chunks
-            const blob = new Blob(chunks.current, { type: 'audio/mp3' });
+            const blob = new Blob(chunks.current, { type: 'audio/mp4' });
             blobRef.current = blob;
             const url = URL.createObjectURL(blob);
             
@@ -315,12 +315,12 @@ function EditGallery() {
             };
             if(blobRef.current) {
                 // Create a new audio file from the recording blob
-                createAudioFileFromBlob(blobRef.current, 'audio.mp3', 'audio/mpeg3;audio/x-mpeg-3;video/mpeg;video/x-mpeg')
+                createAudioFileFromBlob(blobRef.current,'audio.mp4','audio/mp4')
                 .then(async (file) => {
                     // Use the audio buffer as needed
                     console.log("File:", file);
                     // Create URL for the audio file to be used as a source
-                    activeSound.src = URL.createObjectURL(new Blob([blobRef.current], { type: 'audio/mpeg3;audio/x-mpeg-3;video/mpeg;video/x-mpeg' }));
+                    activeSound.src = URL.createObjectURL(blobRef.current)
                     console.log(`imgdata = ${imgData}`)
                     // Create ImgData object to update the photo
                     const img: ImgData = {
