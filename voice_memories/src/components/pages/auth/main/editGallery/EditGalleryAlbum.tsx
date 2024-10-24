@@ -747,8 +747,8 @@ function Album({
               <p className="pb-3 text-center">
                 Here&apos;s a URL that you can give to friends and family so
                 that they can view this gallery.{' '}
-                <span className="font-bold text-red-500">
-                  This link will expire after 24 hours.
+                <span className="font-bold underline italic text-red-500">
+                <br></br>This link will expire after 7 days.
                 </span>
               </p>
               <p className="font-bold">{shareableLink}</p>
