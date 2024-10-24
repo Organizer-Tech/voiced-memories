@@ -612,6 +612,24 @@ export function Settings() {
                         </Button>
                       </dd>
                     </div>
+
+                    <div className="pt-6 sm:flex">
+                      <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                        Change Email
+                      </dt>
+                      <dd className="mt-1 flex justify-between gap-x-6 sm:flex-none sm:pr-6">
+                        <Button
+                          size="md"
+                          color="red"
+                          className="text-3xl text-white hover:text-gray-200"
+                          onClick={() => setChangePassword(true)}
+                        >
+                          {' '}
+                          Change Email{' '}
+                        </Button>
+                      </dd>
+                    </div>
+
                     <div className="pt-6 sm:flex">
                       <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
                         Delete All My Photos & Data
