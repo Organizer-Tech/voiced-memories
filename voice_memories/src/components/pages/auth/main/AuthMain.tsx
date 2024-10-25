@@ -74,14 +74,14 @@ export function Main() {
                 className: '-rotate-10',
               },
               {
-                name: 'Edit Gallery',
+                name: 'Edit Galleries',
                 size: screenWidth * 0.16,
                 link: '/auth/main/userGallery',
                 imageSize: 400,
                 className: 'rotate-10',
               },
               {
-                name: 'View Gallery',
+                name: 'View Galleries',
                 size: screenWidth * 0.16,
                 link: '/auth/main/viewGallery',
                 imageSize: 250,
@@ -112,14 +112,14 @@ export function Main() {
                     className: '-rotate-10',
                   },
                   {
-                    name: 'Edit Gallery',
+                    name: 'Edit Galleries',
                     size: screenWidth * 0.18,
                     link: '/auth/main/userGallery',
                     imageSize: 400,
                     className: 'rotate-10',
                   },
                   {
-                    name: 'View Gallery',
+                    name: 'View Galleries',
                     size: screenWidth * 0.18,
                     link: '/auth/main/viewGallery',
                     imageSize: 250,
