@@ -476,6 +476,13 @@ export function Settings() {
                           </dt>
                           <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                             <div className="text-gray-900">{email}</div>
+                            <button
+                                type="button"
+                            onClick={() => setUpdateEmail(true)}
+                            className="font-semibold text-blue-600 hover:text-blue-500"
+                            >
+                            Update Email
+                           </button>
                           </dd>
                         </div>
                     )}
