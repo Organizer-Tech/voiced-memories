@@ -29,22 +29,23 @@ import {
 import Link from 'next/link'
 const navigation = [{ name: 'Home', href: '/auth/main' }]
 const secondaryNavigation = [
-  { 
-    name: 'General', 
-    href: '#general', 
-    icon: UserCircleIcon, 
-    current: true },
+  {
+    name: 'General',
+    href: '#general',
+    icon: UserCircleIcon,
+    current: true
+  },
   {
     name: 'Security',
     href: '#security',
     icon: FingerPrintIcon,
     current: false,
   },
-  { 
-    name: 'Billing', 
-    href: '#billing', 
-    icon: CreditCardIcon, 
-    current: false 
+  {
+    name: 'Billing',
+    href: '#billing',
+    icon: CreditCardIcon,
+    current: false
   },
 ]
 
@@ -63,14 +64,18 @@ export function Settings() {
   const [currentTab, setCurrentTab] = useState('')
   const [updateName, setUpdateName] = useState(false)
   const [updateEmail, setUpdateEmail] = useState(false)
+  const [updateSecondaryEmail, setUpdateSecondaryEmail] = useState(false) // US11_Task59 Secondary email
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [newEmail, setNewEmail] = useState('')
+  const [secondaryEmail, setSecondaryEmail] = useState('')// US11_Task59 Secondary email
+  const [newSecondaryEmail, setNewSecondaryEmail] = useState('')// US11_Task59 Secondary email
   const [verificationCode, setVerificationCode] = useState('')
   const [verified, setVerified] = useState(true)
   const [invalidEmail, setInvalidEmail] = useState(false)
+  const [invalidSecondaryEmail, setInvalidSecondaryEmail] = useState(false) // US11_Task59 Secondary email
   const [session, setSession] = useState<CognitoUserSession>()
   const [changePassword, setChangePassword] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
@@ -222,6 +227,14 @@ export function Settings() {
   }
 
   /**
+   * US11-Task59 Function to update the secondary email user attribute in Cognito
+   */
+  const updateSecondaryEmailAttribute = () => {
+    setSecondaryEmail(newSecondaryEmail)
+    setUpdateSecondaryEmail(false)
+  }
+
+  /**
    * Cancels email verification after updating email
    */
   const cancelVerification = () => {
@@ -244,6 +257,13 @@ export function Settings() {
         console.error(err)
       })
   }
+
+  /**
+   * US11_Task59 Function to verify secondary email address
+   */
+  const verifyNewSecondaryEmail = () => {
+  }
+
   // sets tile spinner while loading
   if (!loggedIn) {
     return <TileSpinner />
@@ -284,16 +304,16 @@ export function Settings() {
   const confirmCancelMembership = () => {
     setCancelRequested(false)
     cancelMembership(wixOrderId).then(() => {
-        setWixPlan(null)
-        updateUserAttribute('custom:wixMemberId', '')
-        updateUserAttribute('custom:wixOrderId', '')
-        updateUserAttribute('custom:memberTier', '')
-        setMembershipCancelled(true)
+      setWixPlan(null)
+      updateUserAttribute('custom:wixMemberId', '')
+      updateUserAttribute('custom:wixOrderId', '')
+      updateUserAttribute('custom:memberTier', '')
+      setMembershipCancelled(true)
     })
-    .catch(() => {
+      .catch(() => {
         setMembershipCancelled(false)
         setCancellationFailed(true)
-    })
+      })
   }
 
   return (
@@ -470,14 +490,14 @@ export function Settings() {
                       </div>
                     )}
                     {!updateEmail && (
-                        <div className="pt-6 sm:flex">
-                          <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-                            Email address
-                          </dt>
-                          <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                            <div className="text-gray-900">{email}</div>
-                          </dd>
-                        </div>
+                      <div className="pt-6 sm:flex">
+                        <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                          Email address
+                        </dt>
+                        <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                          <div className="text-gray-900">{email}</div>
+                        </dd>
+                      </div>
                     )}
                     {updateEmail && verified && (
                       <div className="pt-5">
@@ -532,6 +552,86 @@ export function Settings() {
                               className="mt-8 w-2/5"
                             >
                               Update Email
+                            </Button>
+                            <Button
+                              onClick={() => cancelVerification()}
+                              color="cyan"
+                              className="mt-8 w-2/5"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {!updateSecondaryEmail && (
+                      <div className="pt-6 sm:flex">
+                        <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                          Secondary email address
+                        </dt>
+                        <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                          <div className="text-gray-900">{secondaryEmail}</div>
+                          <button
+                            type="button"
+                            onClick={() => setUpdateSecondaryEmail(true)}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Update
+                          </button>
+                        </dd>
+                      </div>
+                    )}
+                    {updateSecondaryEmail && verified && (
+                      <div className="pt-5">
+                        <TextField
+                          label="New Secondary Email"
+                          name="email"
+                          type="email"
+                          autoComplete="email"
+                          onChange={(event) => setNewSecondaryEmail(event.target.value)}
+                          required
+                        />
+                        <div className="flex justify-between">
+                          <Button
+                            onClick={() => updateSecondaryEmailAttribute()}
+                            color="cyan"
+                            className="mt-8 w-2/5"
+                          >
+                            Update Secondary Email
+                          </Button>
+                          <Button
+                            onClick={() => setUpdateSecondaryEmail(false)}
+                            color="cyan"
+                            className="mt-8 w-2/5"
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                    {updateSecondaryEmail && !verified && (
+                      <div>
+                        <p className="text-red-500">
+                          A verification code has been sent to your new secondary
+                          email. Please enter the code below.
+                        </p>
+                        <div className="pt-5">
+                          <TextField
+                            label="Verification Code"
+                            name="code"
+                            type="text"
+                            onChange={(event) =>
+                              setVerificationCode(event.target.value)
+                            }
+                            required
+                          />
+                          <div className="flex justify-between">
+                            <Button
+                              onClick={() => verifyNewSecondaryEmail()}
+                              color="cyan"
+                              className="mt-8 w-2/5"
+                            >
+                              Update Secondary Email
                             </Button>
                             <Button
                               onClick={() => cancelVerification()}
