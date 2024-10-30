@@ -28,7 +28,7 @@ interface IAccountContext {
   ) => Promise<unknown>
   verifyEmail: (Username: string, VerificationCode: string) => Promise<unknown>
   updateUserAttribute: (key: string, value: string) => Promise<unknown>
-  verifyAttribute: (code: string) => Promise<unknown>
+  verifyAttribute: (code: string, attribute: string) => Promise<unknown>
   requestPasswordReset: (email: string) => void
   confirmPasswordReset: (
     email: string,
@@ -222,7 +222,7 @@ const updateUserAttribute = (key: string, value: string) => {
  * Verify user attribute in Cognito
  * @param code Verification code sent to user
  */
-const verifyAttribute = (code: string) => {
+const verifyAttribute = (code: string, attribute: string) => {
   const user = Pool.getCurrentUser()
   if (user) {
     user.getSession((err: Error, session: CognitoUserSession | null) => {
@@ -234,7 +234,7 @@ const verifyAttribute = (code: string) => {
   }
 
   return new Promise((resolve, reject) => {
-    user?.verifyAttribute('email', code, {
+    user?.verifyAttribute(attribute, code, {
       onSuccess: (data) => {
         console.log('success', data)
         resolve(data)
@@ -337,6 +337,7 @@ export class UserAttributes {
   wixMemberId: string | null
   wixOrderId: string | null
   wixEmail: string | null
+  altEmail: string | null
 }
 
 /**
@@ -388,6 +389,9 @@ const getUserAttributes = () => {
               case 'custom:wixEmail':
                 userAttributes.wixEmail = item.Value
                 break
+              case 'custom:altEmail':
+                userAttributes.altEmail = item.Value
+                break;
               default:
                 break
             }

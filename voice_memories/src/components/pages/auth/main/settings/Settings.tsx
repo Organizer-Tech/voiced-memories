@@ -228,11 +228,23 @@ export function Settings() {
 
   /**
    * Function to update the alternate email user attribute in Cognito
-   * Not fully implemented yet, need to fix permissions first
    */
   const updateAltEmailAttribute = () => {
-    setAltEmail(newAltEmail)
-    setUpdateAltEmail(false)
+    //setAltEmail(newAltEmail)
+    //setUpdateAltEmail(false)
+
+    setInvalidAltEmail(false)
+    updateUserAttribute('custom:altEmail', newAltEmail)
+      .then((data) => {
+        console.log('alternate email updated', data)
+        setVerified(false)
+      })
+      .catch((err) => {
+        console.error(err)
+        if (err.name === 'InvalidParameterException') {
+          setInvalidAltEmail(true)
+        }
+      })
   }
 
 
@@ -253,7 +265,7 @@ export function Settings() {
    * Function to verify new email address
    */
   const verifyNewEmail = () => {
-    verifyAttribute(verificationCode)
+    verifyAttribute(verificationCode, 'email')
       .then((data) => {
         console.log('Verification Successful: ', data)
         setVerified(true)
@@ -269,6 +281,16 @@ export function Settings() {
    * Function to verify new alternate email address, not implemented yet
    */
   const verifyNewAltEmail = () => {
+    verifyAttribute(verificationCode, 'custom:altEmail')
+      .then((data) => {
+        console.log('Verification Successful: ', data)
+        setVerified(true)
+        setAltEmail(newAltEmail)
+        setUpdateAltEmail(false)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   // sets tile spinner while loading
