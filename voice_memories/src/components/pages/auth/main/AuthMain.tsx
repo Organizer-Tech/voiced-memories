@@ -97,8 +97,8 @@ export function Main() {
               {
                 name: 'View Clients',
                 size: screenWidth * 0.16,
-                link: '',
-                imageSize: 350,
+                link: '/auth/main/viewClients', //auth/main/viewClients
+                imageSize: 300,
                 className: '-rotate-10',
               },
             ]}
@@ -142,8 +142,8 @@ export function Main() {
                   {
                     name: 'View Clients',
                     size: screenWidth * 0.18,
-                    link: '',
-                    imageSize: 350,
+                    link: '/auth/main/viewClients',
+                    imageSize: 300,
                     className: '-rotate-10',
                   },
                 ]}
