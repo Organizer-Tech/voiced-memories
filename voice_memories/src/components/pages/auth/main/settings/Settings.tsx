@@ -497,14 +497,23 @@ export function Settings() {
                       </div>
                     )}
                     {!updateEmail && (
-                      <div className="pt-6 sm:flex">
-                        <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-                          Email address
-                        </dt>
-                        <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                          <div className="text-gray-900">{email}</div>
-                        </dd>
-                      </div>
+
+                        <div className="pt-6 sm:flex">
+                          <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                            Email address
+                          </dt>
+                          <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                            <div className="text-gray-900">{email}</div>
+                            <button
+                                type="button"
+                            onClick={() => setUpdateEmail(true)}
+                            className="font-semibold text-blue-600 hover:text-blue-500"
+                            >
+                            Update Email
+                           </button>
+                          </dd>
+                        </div>
+
                     )}
                     {updateEmail && verified && (
                       <div className="pt-5">
