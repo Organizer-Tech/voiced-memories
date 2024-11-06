@@ -1,11 +1,40 @@
 import { useState } from "react";
+import {useRouter} from "next/router";
+import { AccountContext } from "../utils/Account";
+import { useContext } from "react";
 
+const { getSession, logout } = useContext(AccountContext);
+
+//A router routes between different pages in the application
+const pageRouter = useRouter();
+
+//Functions
+const logOutUser = () => {
+    logout();
+    //Remove from session Storage
+    sessionStorage.removeItem('FullName');
+    sessionStorage.removeItem('Email');
+    //Route back to the LoginPage
+    pageRouter.push("/AccountLogin");
+}
+
+//Functions that will be needed to retrieve client photos and information
+const getClientImages = () => {
+}
+const uploadPhoto = () => {
+}
+const uploadPDF = () =>{
+}
+const uploadVoiceRecording  = () =>{
+}
+const addPhotosToAlbum = () => {
+}
 
 export function CareGiverModel(){
     return (
-        <div>
+        <div className = "bg-slate-300 border-2 border-black rounded-none">
             <div className="flex h-screen flex-col items-center">
-                <h1 className="bold text-center text-3xl">Managing Content For Person 1</h1>
+                <h1 className="underline bold text-center text-3xl">Managing Content For Person 1</h1>
                 <br />
                 <div className="flex flex-row justify-center overflow-x-auto border-2 border-blue-300">
                     <div className="px-2">
@@ -78,23 +107,30 @@ export function CareGiverModel(){
                     <button className="w-52 rounded-md border-2 border-yellow-400 bg-black py-2 text-white hover:bg-slate-500">Upload Voice Recording</button>
                 </div>
 
-                <div className="flex justify-center pb-10 text-center">
+                <div className = "flex flex-col items-center">
+                    <button className="px-3 rounded-md border-2 border-yellow-400 bg-black text-3xl text-white hover:bg-slate-400 hover:text-black"
+                        onClick = {() => pageRouter.push("./..")}>
+                        Go Back to Clients
+                    </button>
+                </div>
+
+                <div className="flex justify-center pb-10 text-center pt-5">
                     <div className="flex justify-between pr-4">
-                        <button className="rounded-md border-2 border-yellow-400 bg-black text-3xl text-white hover:bg-slate-400 hover:text-black">
+                        <button className="rounded-md border-2 border-yellow-400 bg-black text-3xl text-white hover:bg-slate-400 hover:text-black"
+                            onClick = {() => pageRouter.push("/auth/main")}>
                             Home
                         </button>
                     </div>
                     <div className="flex justify-between pr-4">
-                        <button className="hover:text-blackrounded-md border-2 border-yellow-400 bg-black text-3xl text-white hover:bg-slate-400">
+                        <button className="hover:text-blackrounded-md border-2 border-yellow-400 bg-black text-3xl text-white hover:bg-slate-400"
+                            onClick = {logOutUser}>
                             Logout
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
-)
 
-
+    )
 }
 
