@@ -61,7 +61,7 @@ export function Hero() {
             </Link>
             <div className="mx-4"></div>
             <Link href="mailto:karen@photocollections.ca">
-              <Button color="black" size="lg">
+              <Button color="gold" size="lg">
                 Contact Us
               </Button>
             </Link>

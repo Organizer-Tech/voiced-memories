@@ -192,6 +192,12 @@ export const Button = forwardRef(
       variant !== 'secondary' && variant !== 'outline' && `bg-yellow-300 text-gray-700 hover:bg-yellow-400 focus:ring-yellow-300`
     );
 
+    const gold = clsx(
+      variant === 'secondary' && `bg-black text-[#EACB1B] border-white hover:bg-[#333333] focus:ring-white`,
+     variant === 'outline' && `border-[#EACB1B] bg-transparent text-[#EACB1B] hover:bg-[#333333] focus:ring-[#EACB1B]`,
+      variant !== 'secondary' && variant !== 'outline' && `bg-black text-white border-[#EACB1B] hover:bg-[#333333] focus:ring-[#EACB1B]`
+    );
+
     const black = clsx(
       variant === 'secondary' && `bg-yellow-100 text-yellow-700 hover:bg-yellow-200 focus:ring-yellow-500`,
       variant === 'outline' && `border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-yellow-500`,
@@ -204,6 +210,7 @@ export const Button = forwardRef(
       cyan,
       gray,
       green,
+      gold,
       indigo,
       lime,
       orange,
