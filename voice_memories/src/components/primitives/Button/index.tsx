@@ -194,7 +194,7 @@ export const Button = forwardRef(
 
     const gold = clsx(
       variant === 'secondary' && `bg-black text-[#EACB1B] border-white hover:bg-[#333333] focus:ring-white`,
-     variant === 'outline' && `border-[#EACB1B] bg-transparent text-[#EACB1B] hover:bg-[#333333] focus:ring-[#EACB1B]`,
+     variant === 'outline' && `border-[#EACB1B] bg-black text-white hover:bg-[#333333] focus:ring-[#EACB1B]`,
       variant !== 'secondary' && variant !== 'outline' && `bg-black text-white border-[#EACB1B] hover:bg-[#333333] focus:ring-[#EACB1B]`
     );
 
