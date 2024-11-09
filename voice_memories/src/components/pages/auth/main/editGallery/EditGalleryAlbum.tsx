@@ -142,6 +142,8 @@ function Album({
         updateAlbumName(decodeURIComponent(hash))
       }
     }
+
+
     // Function to fetch data
     const fetchData = async () => {
       try {
@@ -237,6 +239,9 @@ function Album({
     sessionStorage.removeItem('Email')
     router.push('/')
   }
+
+  //Implement rotateImage meta data by 90 degs clockwise
+  const rotateImage = () => {};
 
   useEffect(() => {
     if (session) {
@@ -610,6 +615,7 @@ function Album({
           ) : (
             'Please sign in'
           )}
+          
         </div>
       </>
     )
@@ -686,41 +692,44 @@ function Album({
         ))}
       </div>
 
-      <div className="mt-10 flex justify-center text-center">
-        <div className="flex justify-between pr-4">
-          <Button
-            size="xl"
-            className="text-3xl text-white hover:text-gray-200"
-            backgroundColor={'#008080'}
-            onClick={() => router.push('/auth/main')}
-          >
-            Home
-          </Button>
-        </div>
-        <div className="flex justify-between pr-4">
-          <Button
-            size="xl"
-            className="text-3xl text-white hover:text-gray-200"
-            backgroundColor={'#008080'}
-            onClick={() => router.push('/auth/main/userGallery')}
-          >
-            Gallery
-          </Button>
-        </div>
-        {photos.length > 0 && (
-        <div className="flex justify-between pr-4">
+      <div className="mt-10 flex flex-col items-center text-center">
+        <div className = "flex flex-row">
+          <div className="flex justify-between pr-4">
             <Button
               size="xl"
               className="text-3xl text-white hover:text-gray-200"
               backgroundColor={'#008080'}
-              onClick={() => handleShare()}
+              onClick={() => router.push('/auth/main')}
             >
-              Share
+              Home
             </Button>
-        </div>
-        )}
-        {loggedIn ? (
+          </div>
           <div className="flex justify-between pr-4">
+            <Button
+              size="xl"
+              className="text-3xl text-white hover:text-gray-200"
+              backgroundColor={'#008080'}
+              onClick={() => router.push('/auth/main/userGallery')}
+            >
+              Gallery
+            </Button>
+          </div>
+          {photos.length > 0 && (
+            <div className="flex justify-between">
+              <Button
+                size="xl"
+                className="text-3xl text-white hover:text-gray-200"
+                backgroundColor={'#008080'}
+                onClick={() => handleShare()}
+              >
+                Share
+              </Button>
+            </div>
+          )}
+        </div>
+        <div className = "flex flex-row justify-center mt-4">
+          {loggedIn ? (
+            <div className="flex justify-between pr-4">
               <Button
                 size="xl"
                 className="text-3xl text-white hover:text-gray-200"
@@ -729,10 +738,23 @@ function Album({
               >
                 Log Out
               </Button>
-          </div>
-          ) : (
+            </div>
+            ) : (
             'Please sign in' 
-          )}
+            )}
+          {photos.length > 0 &&(
+            <div className="flex justify-between">
+              <Button
+                size = "xl"
+                className = "text-3xl text-white hover:text-gray-200"
+                backgroundColor = {'#008080'}
+                onClick = {rotateImage}
+              >
+                Rotate Photo
+              </Button>
+            </div>
+          )}  
+        </div>    
       </div>
       {noPhotos && (
         <div className="mt-10">
