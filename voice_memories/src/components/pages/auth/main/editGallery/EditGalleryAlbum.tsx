@@ -686,7 +686,7 @@ function Album({
         ))}
       </div>
 
-      <div className="mt-10 flex justify-center text-center">
+      <div className="mt-10 space-y-4 text-center">
         <div className="flex justify-between pr-4">
           <Button
             size="xl"
@@ -705,6 +705,16 @@ function Album({
             onClick={() => router.push('/auth/main/userGallery')}
           >
             Gallery
+          </Button>
+        </div>
+        <div className="flex justify-between pr-">
+          <Button
+            size="xl"
+            className="text-3xl text-white hover:text-gray-200"
+            backgroundColor={'#008080'}
+            onClick={() => router.push('/auth/main/userGallery')}
+          >
+            Edit Gallery name
           </Button>
         </div>
         {photos.length > 0 && (
