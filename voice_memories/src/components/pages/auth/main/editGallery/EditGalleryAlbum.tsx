@@ -113,6 +113,8 @@ function Album({
   const [galleryData, setGalleryData] = useState<GalleryItem[]>([])
   const [displayedImages, setDisplayedImages] = useState<GalleryItem[]>([]) // Set but not read
   const [noPhotos, setNoPhotos] = useState(false) 
+  const [isEditing, setIsEditing] = useState(false)
+  const [newName, setNewName] = useState('')
 
   // Refs
   const containerRef = useRef<HTMLDivElement>(null)
@@ -236,6 +238,10 @@ function Album({
     sessionStorage.removeItem('FullName')
     sessionStorage.removeItem('Email')
     router.push('/')
+  }
+  const handleSaveName = () => {
+  updateAlbumName(newName); // Save new name using the provided function
+  setIsEditing(false); // Hide the text box after saving
   }
 
   useEffect(() => {
@@ -707,16 +713,31 @@ function Album({
             Gallery
           </Button>
         </div>
-        <div className="flex justify-between pr-">
-          <Button
-            size="xl"
-            className="text-3xl text-white hover:text-gray-200"
-            backgroundColor={'#008080'}
-            onClick={() => router.push('/auth/main/userGallery')}
+        <div className="flex items-center gap-2 mt-6">
+        {isEditing ? (
+          <>
+            <input
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="Enter new gallery name"
+              className="border p-2 rounded"
+            />
+            <Button onClick={handleSaveName} className="text-3xl text-white hover:text-gray-20"
+            backgroundColor={'#008080'}>
+              Save
+            </Button>
+          </>
+        ) : (
+          <Button 
+          onClick={() => setIsEditing(true)} 
+          className="text-3xl text-white hover:text-gray-200 "
+          backgroundColor={'#008080'}
           >
-            Edit Gallery name
+            Edit Gallery
           </Button>
-        </div>
+        )}
+      </div>
         {photos.length > 0 && (
         <div className="flex justify-between pr-4">
             <Button
