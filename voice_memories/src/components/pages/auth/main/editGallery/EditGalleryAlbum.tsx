@@ -242,6 +242,8 @@ function Album({
   const handleSaveName = () => {
   updateAlbumName(newName); // Save new name using the provided function
   setIsEditing(false); // Hide the text box after saving
+  window.location.reload()
+  //router.push("/auth/main/editGallery#" + newName)
   }
 
   useEffect(() => {
@@ -719,7 +721,7 @@ function Album({
             <input
               type="text"
               value={newName}
-              onChange={(e) => setNewName(e.target.value)}
+              onChange={(event) => setNewName(event.target.value)}
               placeholder="Enter new gallery name"
               className="border p-2 rounded"
             />
