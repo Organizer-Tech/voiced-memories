@@ -29,22 +29,23 @@ import {
 import Link from 'next/link'
 const navigation = [{ name: 'Home', href: '/auth/main' }]
 const secondaryNavigation = [
-  { 
-    name: 'General', 
-    href: '#general', 
-    icon: UserCircleIcon, 
-    current: true },
+  {
+    name: 'General',
+    href: '#general',
+    icon: UserCircleIcon,
+    current: true
+  },
   {
     name: 'Security',
     href: '#security',
     icon: FingerPrintIcon,
     current: false,
   },
-  { 
-    name: 'Billing', 
-    href: '#billing', 
-    icon: CreditCardIcon, 
-    current: false 
+  {
+    name: 'Billing',
+    href: '#billing',
+    icon: CreditCardIcon,
+    current: false
   },
 ]
 
@@ -63,14 +64,18 @@ export function Settings() {
   const [currentTab, setCurrentTab] = useState('')
   const [updateName, setUpdateName] = useState(false)
   const [updateEmail, setUpdateEmail] = useState(false)
+  const [updateAltEmail, setUpdateAltEmail] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
+  const [altEmail, setAltEmail] = useState('')
   const [newEmail, setNewEmail] = useState('')
+  const [newAltEmail, setNewAltEmail] = useState('')
   const [verificationCode, setVerificationCode] = useState('')
   const [verified, setVerified] = useState(true)
   const [invalidEmail, setInvalidEmail] = useState(false)
+  const [invalidAltEmail, setInvalidAltEmail] = useState(false)
   const [session, setSession] = useState<CognitoUserSession>()
   const [changePassword, setChangePassword] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
@@ -222,10 +227,25 @@ export function Settings() {
   }
 
   /**
+   * Function to update the alternate email user attribute in Cognito
+   * Not fully implemented yet, need to fix permissions first
+   */
+  const updateAltEmailAttribute = () => {
+    setAltEmail(newAltEmail)
+    setUpdateAltEmail(false)
+  }
+
+
+  /**
    * Cancels email verification after updating email
    */
   const cancelVerification = () => {
     setUpdateEmail(false)
+    setVerified(true)
+  }
+
+  const cancelAltVerification = () => {
+    setUpdateAltEmail(false)
     setVerified(true)
   }
 
@@ -244,6 +264,13 @@ export function Settings() {
         console.error(err)
       })
   }
+
+  /**
+   * Function to verify new alternate email address, not implemented yet
+   */
+  const verifyNewAltEmail = () => {
+  }
+
   // sets tile spinner while loading
   if (!loggedIn) {
     return <TileSpinner />
@@ -284,16 +311,16 @@ export function Settings() {
   const confirmCancelMembership = () => {
     setCancelRequested(false)
     cancelMembership(wixOrderId).then(() => {
-        setWixPlan(null)
-        updateUserAttribute('custom:wixMemberId', '')
-        updateUserAttribute('custom:wixOrderId', '')
-        updateUserAttribute('custom:memberTier', '')
-        setMembershipCancelled(true)
+      setWixPlan(null)
+      updateUserAttribute('custom:wixMemberId', '')
+      updateUserAttribute('custom:wixOrderId', '')
+      updateUserAttribute('custom:memberTier', '')
+      setMembershipCancelled(true)
     })
-    .catch(() => {
+      .catch(() => {
         setMembershipCancelled(false)
         setCancellationFailed(true)
-    })
+      })
   }
 
   return (
@@ -470,21 +497,21 @@ export function Settings() {
                       </div>
                     )}
                     {!updateEmail && (
-                        <div className="pt-6 sm:flex">
-                          <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-                            Email address
-                          </dt>
-                          <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                            <div className="text-gray-900">{email}</div>
-                            <button
-                                type="button"
+                      <div className="pt-6 sm:flex">
+                        <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                          Email address
+                        </dt>
+                        <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                          <div className="text-gray-900">{email}</div>
+                          <button
+                            type="button"
                             onClick={() => setUpdateEmail(true)}
                             className="font-semibold text-blue-600 hover:text-blue-500"
-                            >
+                          >
                             Update Email
-                           </button>
-                          </dd>
-                        </div>
+                          </button>
+                        </dd>
+                      </div>
                     )}
                     {updateEmail && verified && (
                       <div className="pt-5">
@@ -542,6 +569,88 @@ export function Settings() {
                             </Button>
                             <Button
                               onClick={() => cancelVerification()}
+                              color="cyan"
+                              className="mt-8 w-2/5"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {!updateAltEmail && (
+                      <div className="pt-6 sm:flex">
+                        <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                          Alternate email address
+                        </dt>
+                        <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                          <div className="text-gray-900">{altEmail}</div>
+                          <button
+                            type="button"
+                            onClick={() => setUpdateAltEmail(true)}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Update
+                          </button>
+                        </dd>
+                      </div>
+                    )}
+                    {updateAltEmail && verified && (
+                      <div className="pt-5">
+                        <TextField
+                          label="New Alternate Email"
+                          name="email"
+                          type="email"
+                          autoComplete="email"
+                          onChange={(event) => setNewAltEmail(event.target.value)}
+                          required
+                        />
+                        <div className="flex justify-between">
+                          <Button
+                            onClick={() => updateAltEmailAttribute()}
+                            color="cyan"
+                            className="mt-8 w-2/5"
+                          >
+                            Update Alternate Email
+                          </Button>
+                          <Button
+                            onClick={() => setUpdateAltEmail(false)}
+                            color="cyan"
+                            className="mt-8 w-2/5"
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                    {updateAltEmail && !verified && (
+                      <div>
+                        <p className="text-red-500">
+                          A verification code hase been sent to your new email.
+                          Please enter the code below. Your old email will
+                          continue to work until the verification code is
+                          entered.
+                        </p>
+                        <div className="pt-5">
+                          <TextField
+                            label="Verification Code"
+                            name="code"
+                            type="text"
+                            onChange={(event) =>
+                              setVerificationCode(event.target.value)
+                            }
+                            required
+                          />
+                          <div className="flex justify-between">
+                            <Button
+                              onClick={() => verifyNewAltEmail()}
+                              color="cyan"
+                              className="mt-8 w-2/5"
+                            >
+                              Update Alternate Email
+                            </Button>
+                            <Button
+                              onClick={() => cancelAltVerification()}
                               color="cyan"
                               className="mt-8 w-2/5"
                             >
