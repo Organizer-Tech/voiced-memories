@@ -50,6 +50,7 @@ interface GalleryItem {
   description: string
   audio: string
   url: string
+  rotation?: number
 }
 
 // Album component props
@@ -71,6 +72,7 @@ interface AlbumProps {
 let currentPhoto: string
 let currentURL: string
 let currentSound: string
+let currentIndex: number | null = null
 
 function setCurrentPhoto(i: string) {
   currentPhoto = i
@@ -82,6 +84,9 @@ function setCurrentPhotoID(url: string) {
 function setCurrentAudio(audio: string) {
   currentSound = audio
 }
+function setCurrentIndex(index: number){
+  currentIndex = index
+}
 export function getCurrentPhoto(): string {
   return currentPhoto
 }
@@ -91,6 +96,10 @@ export function getCurrentURL(): string {
 }
 export function getCurrentAudio(): string {
   return currentSound
+}
+
+export function getCurrentIndex(): number | null {
+  return currentIndex
 }
 
 function Album({
@@ -241,7 +250,30 @@ function Album({
   }
 
   //Implement rotateImage meta data by 90 degs clockwise
-  const rotateImage = () => {};
+  const rotateImage = async () => {
+    if (currentIndex !== null) {
+      const updatedPhotos = [...photos]
+      updatedPhotos[currentIndex] = {
+        ...updatedPhotos[currentIndex],
+        rotation: (updatedPhotos[currentIndex].rotation || 0) + 90,
+      }
+      setPhotos(updatedPhotos)
+
+      if (session) {
+        const tokens = {
+          access: session.getAccessToken().getJwtToken(),
+          id: session.getIdToken().getJwtToken(),
+        }
+
+        const imgData = {
+          email: session.getIdToken().payload.email,
+          album: albumName,
+          rotation: updatedPhotos[currentIndex].rotation,
+        }
+        await updatePhoto(updatedPhotos[currentIndex].url, imgData, tokens)
+      }
+    }
+  }
 
   useEffect(() => {
     if (session) {
@@ -259,6 +291,7 @@ function Album({
         url: photo.url,
         audioType: photo.audioType,
         imgType: photo.imgType,
+        rotation: photo.rotation || 0,
       }))
 
       setGalleryData(updatedGalleryData) // Update the state with the new gallery data.
@@ -381,11 +414,13 @@ function Album({
     url: string,
     audio: string,
     audioType: string,
+    index: number
   ) => {
     // Invoke the callback with the clicked photo data
     setCurrentPhoto(path)
     setCurrentPhotoID(url)
     setCurrentAudio(audio)
+    setCurrentIndex(index)
     let p: PhotoProps = {
       URL: url,
       title: '',
@@ -658,16 +693,21 @@ function Album({
             key={`${path}-${index}`}
             className="xs:w-1/2 p-2 md:px-6 lg:w-1/3 lg:py-12"
           >
+            <div
+        className="transform transition-transform duration-500"
+        style={{ transform: `rotate(${path.rotation}deg)` }}
+      >
             <Photo
               caption="test"
               URL={path.original}
               ID={`${path}-${index}`}
               title="test"
               onClick={() =>
-                handlePhotoClick(path.original, path.url, path.audio, '.mp3')
+                handlePhotoClick(path.original, path.url, path.audio, '.mp3',index)
               }
               play={true}
             />
+            </div>
             {index > 0 && (
               <Button
                 title="move-left"
@@ -748,7 +788,7 @@ function Album({
                 size = "xl"
                 className = "text-3xl text-white hover:text-gray-200"
                 backgroundColor = {'#008080'}
-                onClick = {rotateImage}
+                onClick = {() => rotateImage()}
               >
                 Rotate Photo
               </Button>
