@@ -1,18 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import JSZip from "jszip"
-import fs from "fs"
 
 
-export default function UploadPhotos({photoUploadHandler}){
-    const [photosSelected, setPhotosSelected] = useState([]);
+export default function UploadPhotos({photoUploadHandler, fileExtensionHandler, mouseHandler}){
     const [uploadError, setUploadError] = useState(false);
     //Receive a reference to an underlying DOM Element
     const photoUploadRef = useRef(null);
-    const zipUploadRef = useRef(null);
 
-    function removePhotosSelected(photo){
-
-    }
     async function decompressZip(e){
         const draggedItems = e.dataTransfer.files;
         const zipFiles = [];
@@ -23,6 +17,7 @@ export default function UploadPhotos({photoUploadHandler}){
                 zipFiles.push(file);
             }else{
                 setUploadError(true);
+                return;
             }
         }
 
@@ -35,23 +30,27 @@ export default function UploadPhotos({photoUploadHandler}){
             //For each file convert into images from blobs
             Object.keys(zip.files).forEach(async (fileName) =>{
                 let file = zip.files[fileName];
-                if(fileName.match("/\.(jpg|png|jpeg)")){
-                    //Load the file as a blob
-                    const imgBlob = await file.async('blob');
-                    //Convert from blob into object
-                    const imgURL = URL.createObjectURL(imgBlob);
-                   
-                    //Save the image URL into the photos selected array
-                    setPhotosSelected((prevItems) => [...prevItems,imgURL]);
-                    console.log(imgURL);
-                }else{
-                    setUploadError(true);
+                //Removes the relative folder path to the file
+                const fileNameOnly = file.name.split("/").pop();
+                const extension = fileExtensionHandler(fileNameOnly);
+                if(!(fileNameOnly.startsWith("._")) && extension.match(/\.(png|jpg|jpeg)$/)){
+                    //Load the file as a blob to then convert into a blob
+                    const imgBlob = await file.async('blob');           
+                    const sendFile = new File([imgBlob], fileNameOnly, {type: "image/" + extension.split(".").pop()});
+                    
+                    //Create a fake event that will call the photo upload handler for each image
+                    let mimicChangeEv = new Event("change", {bubbles: true});
+                    //Reset the value in case a previous image is inside the input element
+                    photoUploadRef.current.value = "";
+                    const transferFile = new DataTransfer();
+                    transferFile.items.add(sendFile);
+                    photoUploadRef.current.files = transferFile.files;
+                    photoUploadRef.current.dispatchEvent(mimicChangeEv); 
                 }
             });
-        }
+        }     
     }
 
-    //Toggle the error message visibility to either true or false
     function toggleErrorMsg(){
         if(toggleErrorMsg){
             setUploadError(false);
@@ -64,17 +63,12 @@ export default function UploadPhotos({photoUploadHandler}){
         //Once the user chooses a single photo, the onChange event of the hidden input is fired
     }
 
-    function uploadZipFile(){
-        //Trigger hidden input button click event
-        zipUploadRef.current.onDrop();
-    }
-
     return (
         <div onClick={toggleErrorMsg} className = "flex flex-col justify-center text-2xl">
-            {uploadError && <p className = "text-red-600 font-bold italic"> Some Files were not decompressed correctly</p>}
-            <div id = "zipUpload" onDragOver={(event) => {event.preventDefault()}} onDrop = {uploadZipFile} className = "text-white text-center mb-6 py-4 border-2 h-24 border-dashed font-bold">
+            {uploadError && <p className = "text-red-600 font-bold italic"> Ensure only zip files are dragged here</p>}
+            <div id = "zipUpload" onDragOver={mouseHandler} onDrop = {(event) => {mouseHandler(event); decompressZip(event);}} 
+                className = "text-white text-center mb-6 py-4 border-2 h-24 border-dashed font-bold">
                 Drag a .zip file here with you're photos
-                <input type = "file" accept ="images/*" ref = {zipUploadRef} onChange = {decompressZip} className = "hidden"/> 
             </div>
             <div className = "text-white border-2 border-yellow-400 text-center h-24 py-2 font-bold" 
                 onClick = {uploadSinglePhoto}>

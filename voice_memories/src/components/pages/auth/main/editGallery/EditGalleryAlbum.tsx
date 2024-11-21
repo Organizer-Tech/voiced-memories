@@ -620,7 +620,12 @@ function Album({
       ref={containerRef}
       className="container mx-auto h-full w-full px-5 py-24"
     >
-      <UploadPhotos photoUploadHandler={handleChange}></UploadPhotos>
+      <UploadPhotos 
+        photoUploadHandler={handleChange} 
+        fileExtensionHandler={getFileExtension}
+        mouseHandler={handleDragOver}
+        >
+      </UploadPhotos>
       <div className="-m-4 flex flex-wrap">
         {galleryData.map((path, index) => (
           <div
