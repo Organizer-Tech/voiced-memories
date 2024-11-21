@@ -175,7 +175,7 @@ function Plan({
         href={`/Checkout?planId=${activePeriod == 'Monthly' ? wixId.Monthly : wixId.Annually}`}
       >
         <Button
-          color={featured ? 'cyan' : 'gray'}
+          color={featured ? 'cyan' : 'gold'}
           className="mt-6"
           aria-label={`Get started with the ${name} plan for ${price}`}
         >

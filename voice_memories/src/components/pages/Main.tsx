@@ -55,13 +55,13 @@ export function Hero() {
         <div>
           <div className="flex justify-center pt-2">
             <Link href="/AccountLogin">
-              <Button color="white" variant="outline" size="lg">
+              <Button color="gold"  variant="outline" size="lg">
                 Log in
               </Button>
             </Link>
             <div className="mx-4"></div>
             <Link href="mailto:karen@photocollections.ca">
-              <Button color="black" size="lg">
+              <Button color="gold" variant="outline" size="lg">
                 Contact Us
               </Button>
             </Link>
@@ -116,21 +116,24 @@ export function Hero() {
         </Card>
         <Link href={`https://youtu.be/Rqy8GP9S2-0`}>
         <div className="flex w-full justify-center pt-8">
-          <Card className="flex w-full items-center justify-center bg-red-900 p-8 text-lg text-white">
+          <Card className="flex w-full items-center justify-center bg-black p-8 text-lg text-white border-2"
+          style={{ borderColor: "#EACB1B" }}>
             Learn More{' '}
           </Card>
         </div>
         </Link>
         <Link href={`/showcase`}>
           <div className="flex w-full justify-center pt-8">
-            <Card className="flex w-full items-center justify-center bg-red-900 p-8 text-lg text-white">
+          <Card className="flex w-full items-center justify-center bg-black p-8 text-lg text-white border-2"
+          style={{ borderColor: "#EACB1B" }}>
               Showcase Gallery{' '}
             </Card>
           </div>
         </Link>
         <Link href={`/Checkout?planId=${planId}`}>
           <div className="flex w-full justify-center pt-8">
-            <Card className="flex w-full items-center justify-center bg-red-900 p-8 text-lg text-white">
+          <Card className="flex w-full items-center justify-center bg-black p-8 text-lg text-white border-2"
+          style={{ borderColor: "#EACB1B" }}>
               Get Started{' '}
             </Card>
           </div>

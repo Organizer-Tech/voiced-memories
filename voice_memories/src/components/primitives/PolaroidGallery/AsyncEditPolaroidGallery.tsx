@@ -71,6 +71,7 @@ const PolaroidGallery = ({ session, size, imageSize, className, textSize }) => {
           <Button 
             size="xl"
             className="text-3xl text-white hover:text-gray-200"
+            color="gold" variant="outline" 
             onClick={() => router.push('/auth/main')}
           >
             Return to Home
@@ -89,6 +90,7 @@ const PolaroidGallery = ({ session, size, imageSize, className, textSize }) => {
             <Button 
               size="xl"
               className="text-3xl text-white hover:text-gray-200"
+              color="gold" variant="outline" 
               onClick={() => router.push('/auth/main')}
             >
               Return to Home

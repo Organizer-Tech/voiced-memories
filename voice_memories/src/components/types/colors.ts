@@ -2,6 +2,7 @@ export type colors =
   | 'amber'
   | 'blue'
   | 'cyan'
+  | 'gold'
   | 'gray'
   | 'green'
   | 'indigo'
