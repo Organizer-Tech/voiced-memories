@@ -85,6 +85,7 @@ export function ViewGallery() {
           <Button
             size="xl"
             className="text-3xl text-white hover:text-gray-200"
+            color="gold" variant="outline" 
             onClick={() => router.push('/auth/main')}
           >
             Home
@@ -145,6 +146,7 @@ export function ViewGallery() {
         <div className="flex justify-between pr-4">
       <Button 
       size="xl"
+      color="gold" variant="outline" 
       className="text-3xl text-white hover:text-gray-200"
       onClick={() => router.push('/auth/main')}
     >
@@ -156,6 +158,7 @@ export function ViewGallery() {
           <Button
             size="xl"
             className="text-3xl text-white hover:text-gray-200"
+            color="gold" variant="outline" 
             onClick={handleLogout}
           >
             Log Out
