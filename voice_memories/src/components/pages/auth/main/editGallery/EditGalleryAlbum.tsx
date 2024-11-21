@@ -27,6 +27,7 @@ import { FloatingPortal } from '@floating-ui/react'
 import { ConfirmationModal } from '@/components/primitives/ConfirmationModal/ConfirmationModal'
 import { TileSpinner } from '@/components/primitives/TileSpinner.tsx/TileSpinner'
 import { Alert } from '@mui/material'
+import UploadPhotos from './UploadPhotos'
 
 // Album component to display the user's gallery
 export interface ImgData {
@@ -619,33 +620,7 @@ function Album({
       ref={containerRef}
       className="container mx-auto h-full w-full px-5 py-24"
     >
-      <div
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '50px',
-          width: 'w-full',
-          border: '1px dotted',
-          backgroundColor: dragIsOver ? '#F1F2EE' : '#008080',
-          fontSize: '25px',
-        }}
-      >
-        <button onClick={() => uploadRef.current?.click()}>
-          Click or drag and drop photos here
-        </button>
-
-        <input
-          type="file"
-          accept="images/*"
-          ref={uploadRef}
-          onChange={handleChange}
-          style={{ display: 'none' }}
-        />
-      </div>
+      <UploadPhotos photoUploadHandler={handleChange}></UploadPhotos>
       <div className="-m-4 flex flex-wrap">
         {galleryData.map((path, index) => (
           <div

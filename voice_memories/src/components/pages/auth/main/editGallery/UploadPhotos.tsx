@@ -3,9 +3,12 @@ import JSZip from "jszip"
 import fs from "fs"
 
 
-export default function UploadPhotos(){
+export default function UploadPhotos({photoUploadHandler}){
     const [photosSelected, setPhotosSelected] = useState([]);
     const [uploadError, setUploadError] = useState(false);
+    //Receive a reference to an underlying DOM Element
+    const photoUploadRef = useRef(null);
+    const zipUploadRef = useRef(null);
 
     function removePhotosSelected(photo){
 
@@ -22,23 +25,25 @@ export default function UploadPhotos(){
                 setUploadError(true);
             }
         }
-        
+
         const zipObj = new JSZip();
         for(const zipFile of zipFiles){
 
             //Decompress the zip file
             let zip = await zipObj.loadAsync(zipFile);
+
             //For each file convert into images from blobs
-            zip.forEach(async (fileName) => {
+            Object.keys(zip.files).forEach(async (fileName) =>{
+                let file = zip.files[fileName];
                 if(fileName.match("/\.(jpg|png|jpeg)")){
-                    const file = zipObj.file(fileName);
                     //Load the file as a blob
                     const imgBlob = await file.async('blob');
                     //Convert from blob into object
                     const imgURL = URL.createObjectURL(imgBlob);
-
+                   
                     //Save the image URL into the photos selected array
-                    photosSelected.push(imgURL);
+                    setPhotosSelected((prevItems) => [...prevItems,imgURL]);
+                    console.log(imgURL);
                 }else{
                     setUploadError(true);
                 }
@@ -53,32 +58,28 @@ export default function UploadPhotos(){
         }
     }
 
-    function confirmPhotos(){
+    function uploadSinglePhoto(){
+        //Trigger the hidden input button click event 
+        photoUploadRef.current.click();
+        //Once the user chooses a single photo, the onChange event of the hidden input is fired
     }
+
+    function uploadZipFile(){
+        //Trigger hidden input button click event
+        zipUploadRef.current.onDrop();
+    }
+
     return (
-        <div onClick={toggleErrorMsg}>
-            <h1> Choose Photos to Upload</h1>
-            {toggleErrorMsg && <p> Some Files were not decompressed correctly</p>}
-            <div>
-                <ul>
-                {
-                    photosSelected.map((photoURL) =>
-                        <li>
-                            <img src = {photoURL.imageURL}></img>
-                        </li>     
-                    )
-                }
-                </ul>
-            </div>
-            <div id = "zipUpload" onDrop = {decompressZip}>
+        <div onClick={toggleErrorMsg} className = "flex flex-col justify-center text-2xl">
+            {uploadError && <p className = "text-red-600 font-bold italic"> Some Files were not decompressed correctly</p>}
+            <div id = "zipUpload" onDragOver={(event) => {event.preventDefault()}} onDrop = {uploadZipFile} className = "text-white text-center mb-6 py-4 border-2 h-24 border-dashed font-bold">
                 Drag a .zip file here with you're photos
+                <input type = "file" accept ="images/*" ref = {zipUploadRef} onChange = {decompressZip} className = "hidden"/> 
             </div>
-            <p>Or Select photos individually from your computer</p>
-            <label htmlFor='computerUploads'>Upload Photos from your computer</label>
-            <input id = "computerUploads" type = "file" multiple/>
-            <div>
-                <button> Confirm Uploaded Photos</button>
-                <button disabled> Remove Selected Photos</button>
+            <div className = "text-white border-2 border-yellow-400 text-center h-24 py-2 font-bold" 
+                onClick = {uploadSinglePhoto}>
+                or click here to select photos individually from your computer
+                <input type = "file" accept ="images/*" ref = {photoUploadRef} onChange = {photoUploadHandler} className = "hidden"/> 
             </div>
         </div>
     )
