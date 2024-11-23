@@ -112,7 +112,7 @@ function Album({
   const [currentPage, setCurrentPage] = useState(1) // Read but not set
   const [galleryData, setGalleryData] = useState<GalleryItem[]>([])
   const [displayedImages, setDisplayedImages] = useState<GalleryItem[]>([]) // Set but not read
-  const [noPhotos, setNoPhotos] = useState(false) 
+  const [noPhotos, setNoPhotos] = useState(false)
 
   // Refs
   const containerRef = useRef<HTMLDivElement>(null)
@@ -515,10 +515,10 @@ function Album({
 
     if (index > 0) {
       const newData = [...galleryData]
-      ;[newData[index], newData[index - 1]] = [
-        newData[index - 1],
-        newData[index],
-      ] // Swap elements
+        ;[newData[index], newData[index - 1]] = [
+          newData[index - 1],
+          newData[index],
+        ] // Swap elements
       setGalleryData(newData) // Update the state
       updatePhoto(newData[index - 1].url, imgData1, tokens)
       updatePhoto(newData[index].url, imgData2, tokens)
@@ -549,10 +549,10 @@ function Album({
 
     if (index < galleryData.length - 1) {
       const newData = [...galleryData]
-      ;[newData[index], newData[index + 1]] = [
-        newData[index + 1],
-        newData[index],
-      ] // Swap elements
+        ;[newData[index], newData[index + 1]] = [
+          newData[index + 1],
+          newData[index],
+        ] // Swap elements
       setGalleryData(newData) // Update the state
       updatePhoto(newData[index + 1].url, imgData1, tokens)
       updatePhoto(newData[index].url, imgData2, tokens)
@@ -646,6 +646,33 @@ function Album({
           style={{ display: 'none' }}
         />
       </div>
+      <div
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50px',
+          width: 'w-full',
+          border: '1px dotted',
+          backgroundColor: dragIsOver ? '#F1F2EE' : '#008080',
+          fontSize: '25px',
+        }}
+      >
+        <button onClick={() => uploadRef.current?.click()}>
+          Click here to add a PDF document
+        </button>
+
+        <input
+          type="file"
+          accept=".pdf"
+          ref={uploadRef}
+          onChange={handleChange}
+          style={{ display: 'none' }}
+        />
+      </div>
       <div className="-m-4 flex flex-wrap">
         {galleryData.map((path, index) => (
           <div
@@ -708,7 +735,7 @@ function Album({
           </Button>
         </div>
         {photos.length > 0 && (
-        <div className="flex justify-between pr-4">
+          <div className="flex justify-between pr-4">
             <Button
               size="xl"
               className="text-3xl text-white hover:text-gray-200"
@@ -717,22 +744,22 @@ function Album({
             >
               Share
             </Button>
-        </div>
+          </div>
         )}
         {loggedIn ? (
           <div className="flex justify-between pr-4">
-              <Button
-                size="xl"
-                className="text-3xl text-white hover:text-gray-200"
-                backgroundColor={'#008080'}
-                onClick={handleLogout}
-              >
-                Log Out
-              </Button>
+            <Button
+              size="xl"
+              className="text-3xl text-white hover:text-gray-200"
+              backgroundColor={'#008080'}
+              onClick={handleLogout}
+            >
+              Log Out
+            </Button>
           </div>
-          ) : (
-            'Please sign in' 
-          )}
+        ) : (
+          'Please sign in'
+        )}
       </div>
       {noPhotos && (
         <div className="mt-10">
@@ -748,7 +775,7 @@ function Album({
                 Here&apos;s a URL that you can give to friends and family so
                 that they can view this gallery.{' '}
                 <span className="font-bold underline italic text-red-500">
-                <br></br>This link will expire after 7 days.
+                  <br></br>This link will expire after 7 days.
                 </span>
               </p>
               <p className="font-bold">{shareableLink}</p>
