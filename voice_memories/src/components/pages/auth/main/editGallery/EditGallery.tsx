@@ -393,7 +393,7 @@ function EditGallery() {
     return (
         <section id="features">
             <div className="min-w-screen flex min-h-screen flex-col lg:flex-row">
-                <div className="flex flex-1 flex-col bg-cream">
+                <div className="flex flex-1 flex-col bg-light-gray">
                     <div className="flex items-center justify-center pr-32 pl-32 pt-2">
                     <img
                             alt=""
@@ -409,7 +409,7 @@ function EditGallery() {
                             {/* Play/Pause Button */}
                             <button
                                 onClick={togglePlayPause}
-                                className="flex h-12 w-12 items-center justify-center rounded-full bg-maroon ring-4 ring-white transition hover:bg-maroon"
+                                className="flex h-12 w-12 items-center justify-center rounded-full bg-light-blue ring-4 ring-gray transition hover:bg-light-blue-dark"
                             >
                                 <span className="sr-only">
                                     {isPlaying ? 'Pause Audio' : 'Play Audio'}
@@ -426,7 +426,7 @@ function EditGallery() {
                             {/* Record Button */}
                             <button
                                 onClick={toggleRecordClick} 
-                                className="flex h-12 w-12 items-center justify-center rounded-full bg-maroon ring-4 ring-white transition hover:bg-maroon"
+                                className="flex h-12 w-12 items-center justify-center rounded-full bg-light-blue ring-4 ring-gray transition hover:bg-light-blue-dark"
                             >
                             {/* <audio ref={audioRef} /> */}
                                 <span className="sr-only">
@@ -438,7 +438,7 @@ function EditGallery() {
                                 ) : (
                                     <FontAwesomeIcon
                                         icon={faCircle}
-                                        className="h-6 w-6 text-red-500"
+                                        className="h-6 w-6 text-gray"
                                     />
                                 )}
                             </button>
@@ -447,7 +447,7 @@ function EditGallery() {
                             {/* Delete Button */}
                             <button 
                                 onClick={deleteImage} 
-                                className="flex h-12 w-12 items-center justify-center rounded-full bg-maroon ring-4 ring-white transition hover:bg-maroon"
+                                className="flex h-12 w-12 items-center justify-center rounded-full bg-red ring-4 ring-white transition hover:bg-red-dark"
                             >
                                 <span className="sr-only">Delete</span>
                                 <TrashIcon className="h-6 w-6 text-white" />
@@ -455,7 +455,7 @@ function EditGallery() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full overflow-auto bg-maroon lg:w-1/3">
+                <div className="w-full overflow-auto bg-light-gray lg:w-1/3">
                     {/* Sidebar, displays photos in album */}
                     <EditGalleryAlbum
                         onImageClick={handleImageClick}
