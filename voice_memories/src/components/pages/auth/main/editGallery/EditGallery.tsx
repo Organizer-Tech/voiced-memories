@@ -455,7 +455,7 @@ function EditGallery() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full overflow-auto bg-light-gray lg:w-1/3">
+                <div className="w-full overflow-auto bg-light-graygit lg:w-1/3">
                     {/* Sidebar, displays photos in album */}
                     <EditGalleryAlbum
                         onImageClick={handleImageClick}
