@@ -146,6 +146,7 @@ export function Main() {
             size="xl"
             className="text-3xl text-white hover:text-gray-200"
             onClick={handleLogout}
+            color="gold" variant="outline" 
           >
             Log Out
           </Button>

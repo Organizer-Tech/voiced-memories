@@ -699,7 +699,7 @@ function Album({
           <Button
             size="xl"
             className="text-3xl text-white hover:text-gray-200"
-            backgroundColor={'#008080'}
+            color="gold" variant="outline" 
             onClick={() => router.push('/auth/main')}
           >
             Home
@@ -709,7 +709,7 @@ function Album({
           <Button
             size="xl"
             className="text-3xl text-white hover:text-gray-200"
-            backgroundColor={'#008080'}
+            color="gold" variant="outline"
             onClick={() => router.push('/auth/main/userGallery')}
           >
             Gallery
@@ -745,7 +745,7 @@ function Album({
             <Button
               size="xl"
               className="text-3xl text-white hover:text-gray-200"
-              backgroundColor={'#008080'}
+              color="gold" variant="outline" 
               onClick={() => handleShare()}
             >
               Share
@@ -755,9 +755,8 @@ function Album({
         {loggedIn ? (
           <div className="flex justify-between pr-4">
               <Button
-                size="xl"
-                className="text-3xl text-white hover:text-gray-200"
-                backgroundColor={'#008080'}
+              className="text-3xl text-white hover:text-gray-200"
+                color="gold" variant="outline" size="lg"
                 onClick={handleLogout}
               >
                 Log Out
