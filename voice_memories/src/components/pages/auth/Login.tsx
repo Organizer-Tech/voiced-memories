@@ -79,7 +79,7 @@ export default function Login() {
       }
     >
       <div>
-        <div className="space-y-6">
+        <div className="py-3">
           <TextField
             label="Email address"
             name="email"
@@ -104,11 +104,17 @@ export default function Login() {
             </p>
           )}
         </div>
-        <Button onClick={() => onSubmit()} color="cyan" className="mt-8 w-full">
+        <Button onClick={() => onSubmit()} color="cyan" className ={loginFailed ? 'mt-3 w-full': 'mt-8 w-full'}>
           Sign in to account
         </Button>
+        <Button href={`/AccountRegister?${searchParams.toString()}`} 
+          color="cyan"
+          className ="mt-5 w-full"
+          >
+          Sign up for a new account
+        </Button>
         <Link
-          className="mt-8 flex justify-center text-cyan-600"
+          className="mt-3 flex justify-center text-cyan-600"
           href="/AccountLogin/PasswordRecovery"
         >
           Forgot your password?
