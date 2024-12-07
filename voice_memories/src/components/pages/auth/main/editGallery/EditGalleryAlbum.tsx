@@ -720,6 +720,12 @@ function Album({
           style={{ display: 'none' }}
         />
       </div>
+      <UploadPhotos 
+        photoUploadHandler={handleChange} 
+        fileExtensionHandler={getFileExtension}
+        mouseHandler={handleDragOver}
+        >
+      </UploadPhotos>
       <div className="-m-4 flex flex-wrap">
         {galleryData.map((path, index) => (
           <div
