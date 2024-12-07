@@ -39,6 +39,11 @@ export default {
           'teal': '#008080',
           'maroon': '#530C0C',
           'cream': '#F1F2EE',
+          'gold': '#EACB1B',
+          'primaryBlue': '#506E79',
+          'primaryGray': '#B2C6D6',
+          'primaryLightBlue': '#8CC1D1',
+          'primaryDarkGray': '#8A9EA6',
       }),
       fontFamily: {
         sans: 'var(--font-inter)',

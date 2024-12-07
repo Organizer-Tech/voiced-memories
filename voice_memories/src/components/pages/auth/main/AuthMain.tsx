@@ -94,6 +94,13 @@ export function Main() {
                 imageSize: 350,
                 className: 'rotate-20',
               },
+              {
+                name: 'View Clients',
+                size: screenWidth * 0.16,
+                link: '/auth/main/viewClients', //auth/main/viewClients
+                imageSize: 300,
+                className: '-rotate-10',
+              },
             ]}
             textSize="text-2xl"
           />
@@ -131,6 +138,13 @@ export function Main() {
                     link: '/auth/main/settings#general',
                     imageSize: 350,
                     className: 'rotate-20',
+                  },
+                  {
+                    name: 'View Clients',
+                    size: screenWidth * 0.18,
+                    link: '/auth/main/viewClients',
+                    imageSize: 300,
+                    className: '-rotate-10',
                   },
                 ]}
                 textSize={'text-1xl'}
