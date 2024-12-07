@@ -51,6 +51,7 @@
     "howler": "^2.2.4",
     "jpeg-js": "^0.4.4",
     "js-cookie": "^3.0.5",
+    "jszip": "^3.10.1",
     "material-ripple-effects": "^2.0.1",
     "mic-recorder-to-mp3": "^2.2.2",
     "next": "13.4.16",

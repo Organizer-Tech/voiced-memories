@@ -27,6 +27,7 @@ import { FloatingPortal } from '@floating-ui/react'
 import { ConfirmationModal } from '@/components/primitives/ConfirmationModal/ConfirmationModal'
 import { TileSpinner } from '@/components/primitives/TileSpinner.tsx/TileSpinner'
 import { Alert } from '@mui/material'
+import UploadPhotos from './UploadPhotos'
 
 // Album component to display the user's gallery
 export interface ImgData {
