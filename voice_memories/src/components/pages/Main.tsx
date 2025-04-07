@@ -17,7 +17,7 @@ export function Hero() {
         <Container>
           <div className="flex h-full justify-center pt-2">
             <Image
-              src="/Logo.jpg"
+              src="/voiced_memories_logo_white_bg.png"
               height={100}
               width={200}
               alt="Description of the image"
@@ -25,7 +25,7 @@ export function Hero() {
           </div>
           <div className="flex h-full justify-center pt-4">
             <p className="text-2xl font-bold text-red-800">
-              Bring Your Photos to Life with Your Voice
+            Strengthening Minds. Connecting Hearts.
             </p>
           </div>
           <div className="flex h-full justify-center">
@@ -40,7 +40,7 @@ export function Hero() {
           </div>
           <div className="flex h-full justify-center pt-6">
             <p className="text-lg italic text-red-800">
-              Relive and share your voiced memories like never before.
+            Engage, Remember, Thrive
             </p>
           </div>
           <div className="flex h-full justify-center p-6">

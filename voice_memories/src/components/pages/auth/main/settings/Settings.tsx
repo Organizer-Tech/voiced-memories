@@ -311,7 +311,7 @@ export function Settings() {
             </button>
             <img
               className="h-20 w-auto"
-              src="/Logo.jpg"
+              src="/voiced_memories_logo_green_bg.png"
               alt="Voice Memories"
             />
           </div>
@@ -345,7 +345,7 @@ export function Settings() {
                   <span className="sr-only">Your Company</span>
                   <img
                     className="h-8 w-auto"
-                    src="/Logo.jpg"
+                    src="/voiced_memories_logo_transparent.png"
                     alt="Voice Memories"
                   />
                 </a>

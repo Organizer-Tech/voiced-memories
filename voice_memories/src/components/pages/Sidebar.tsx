@@ -5,32 +5,32 @@ import Link from 'next/link'
 // This function is to handle the sidebar on the left side of the page
 export function Sidebar() {
     return (
-        <div className="h-full w-1/6 fixed overflow-auto bg-[#008080]">
-                <div className='pt-48 flex justify-center'>
+        <div className="h-dvh w-1/6 fixed overflow-auto bg-[#008080] flex flex-col justify-between items-center">
+               
+               <div className="flex flex-col gap-8 mt-48">
                 <Link href="/#pricing">
                     <span className="text-2xl text-white">Pricing</span>
                 </Link>
-            </div>
-            <div className='pt-12 flex justify-center'>
+          
                 <Link href="/#about">
                     <span className="text-2xl text-white">About Us</span>
                 </Link>
-            </div>
-            <div className='pt-12 flex justify-center'>
                 <Link href="/#privacy">
                     <span className="text-2xl text-white">Privacy</span>
                 </Link>
             </div>
-            <div className='pt-12 flex justify-center'>
+                <div  className="w-[1/6vw] h-[1/6vw]">
                 <Image
-                    src="/Logo.jpg"
-                    height={700}
-                    width={300}
+                    src="/voiced_memories_logo_green_bg.png"
                     alt="Description of the image"
-                    sizes="(max-width: 300px) 100vw"
+                    className="w-full h-full object-contain"
+                    
+                    height={300}
+                    width={300}
+                    // sizes="(max-width: 300px) 100vw"
                 />
             </div>
-            <div className="flex justify-center pt-12 pb-12">
+            <div className="mb-12">
                 <Link href='https://www.photocollections.ca/'>
                 <Image
                     src="/PhotoCollections_LQ.jpg"
